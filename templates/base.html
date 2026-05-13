@@ -405,6 +405,13 @@
                     <li class="nav-item">
                         <a class="nav-link mx-2" href="{% url 'register' %}">{% trans "سجل في المعسكر" %}</a>
                     </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item d-lg-none mt-2 mb-3">
+                        <a class="btn btn-outline-neon w-100 text-start" href="{% url 'dashboard' %}">
+                            <i class="fas fa-satellite-dish me-2"></i> {% trans "مركز القيادة" %}
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
                 <div class="d-flex align-items-center gap-3">
                     <form action="{% url 'set_language' %}" method="post" class="m-0 p-0">
