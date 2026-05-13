@@ -9,7 +9,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 
-from .models import Registration, RegistrationStats
+from .models import Registration, RegistrationStats, SiteSettings
 from .serializers import RegistrationSerializer, StatsSerializer
 from .forms import RegistrationForm
 
@@ -24,6 +24,12 @@ class RegistrationCreateView(CreateView):
     form_class = RegistrationForm
     template_name = 'registration_form.html'
     success_url = reverse_lazy('registration_success')
+    
+    def dispatch(self, request, *args, **kwargs):
+        settings = SiteSettings.objects.first()
+        if settings and not settings.registration_open:
+            return render(request, 'registration_closed.html', {'message': settings.closed_message})
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         # Honeypot check — if the hidden field has a value, it's a bot
@@ -55,6 +61,35 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         
         context['recent_registrations'] = Registration.objects.all()[:10]
         return context
+
+class AdminSettingsView(LoginRequiredMixin, TemplateView):
+    template_name = 'admin_settings.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        settings = SiteSettings.objects.first()
+        if not settings:
+            settings = SiteSettings.objects.create()
+        context['settings'] = settings
+        return context
+
+    def post(self, request, *args, **kwargs):
+        settings = SiteSettings.objects.first()
+        if not settings:
+            settings = SiteSettings.objects.create()
+        
+        registration_open = request.POST.get('registration_open') == 'on'
+        closed_message = request.POST.get('closed_message', '')
+        
+        settings.registration_open = registration_open
+        settings.closed_message = closed_message
+        settings.save()
+        
+        # Add success message logic here if you want (using django messages)
+        from django.contrib import messages
+        messages.success(request, "تم حفظ الإعدادات بنجاح.")
+        
+        return self.get(request, *args, **kwargs)
 
 class RegistrationListView(LoginRequiredMixin, ListView):
     model = Registration

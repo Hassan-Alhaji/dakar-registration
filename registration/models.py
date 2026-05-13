@@ -86,9 +86,10 @@ class Registration(models.Model):
     )
     can_travel = models.BooleanField(verbose_name=_('القدرة على السفر'))
     
-    # الملفات
+    # الملفات والموافقات
     profile_photo = models.ImageField(upload_to='photos/', verbose_name=_('الصورة الشخصية'))
     experience_docs = models.FileField(upload_to='documents/', blank=True, null=True, verbose_name=_('مستندات الخبرة'))
+    agreed_to_terms = models.BooleanField(default=False, verbose_name=_('موافق على الشروط والأحكام'))
     
     # الحالة والتواريخ
     status = models.CharField(
@@ -180,3 +181,25 @@ class RegistrationStats(models.Model):
     
     def __str__(self):
         return f"الإحصائيات - {self.total_registrations} تسجيل"
+
+class SiteSettings(models.Model):
+    """إعدادات النظام العامة"""
+    
+    registration_open = models.BooleanField(default=True, verbose_name=_('التسجيل متاح'))
+    closed_message = models.TextField(
+        default=_('عذراً، فترة التسجيل منتهية حالياً. يرجى متابعة قنواتنا الرسمية لأي تحديثات.'),
+        verbose_name=_('رسالة إغلاق التسجيل')
+    )
+    
+    class Meta:
+        verbose_name = 'إعدادات النظام'
+        verbose_name_plural = 'إعدادات النظام'
+        
+    def __str__(self):
+        return "إعدادات النظام"
+    
+    def save(self, *args, **kwargs):
+        # Ensure only one row exists
+        if SiteSettings.objects.exists() and not self.pk:
+            return SiteSettings.objects.first()
+        return super().save(*args, **kwargs)

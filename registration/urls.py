@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     IndexView, RegistrationCreateView, RegistrationSuccessView,
     DashboardView, RegistrationListView, RegistrationDetailView,
-    ExportExcelView,
+    ExportExcelView, AdminSettingsView,
     RegistrationViewSet, StatsViewSet
 )
 
@@ -19,6 +19,7 @@ urlpatterns = [
     
     # Admin UI Routes
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
+    path('dashboard/settings/', AdminSettingsView.as_view(), name='admin_settings'),
     path('dashboard/registrations/', RegistrationListView.as_view(), name='registration_list'),
     path('dashboard/registrations/<int:pk>/', RegistrationDetailView.as_view(), name='registration_detail'),
     path('dashboard/export/', ExportExcelView.as_view(), name='export_excel'),

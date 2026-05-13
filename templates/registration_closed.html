@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "التسجيل مغلق" %} | SAMF NEXGEN{% endblock %}
+
+{% block content %}
+<section class="container py-5 my-5 text-center">
+    <div class="p-5 text-center position-relative" style="background: var(--dark-gray); border-top: 5px solid var(--neon-green);">
+        <i class="fas fa-lock position-absolute top-50 start-50 translate-middle" style="font-size: 15rem; color: rgba(255,255,255,0.03);"></i>
+        <div class="position-relative z-1 gs-reveal">
+            <h2 class="title-massive text-white mb-4">{% trans "التسجيل" %} <span class="text-neon glitch-text">{% trans "مغلق" %}</span></h2>
+            <p class="lead text-light mb-5 w-75 mx-auto" style="font-size: 1.5rem; line-height: 1.8;">
+                {{ message }}
+            </p>
+            <a href="{% url 'index' %}" class="btn btn-outline-neon btn-lg px-5">{% trans "العودة للرئيسية" %} <i class="fas fa-home ms-2"></i></a>
+        </div>
+    </div>
+</section>
+{% endblock %}
