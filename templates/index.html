@@ -142,6 +142,36 @@
         transform: scale(1.15) perspective(1000px) rotateY(-5deg) translateZ(80px);
         filter: drop-shadow(0 0 30px rgba(0,255,65,0.6));
     }
+
+    @media (max-width: 768px) {
+        .hero-container {
+            min-height: 60vh !important;
+            padding-top: 3rem !important;
+        }
+        .hero-title-back {
+            top: -10px;
+        }
+        .img-pop-out {
+            transform: none !important;
+            filter: drop-shadow(0 0 10px rgba(0,255,65,0.3));
+            mix-blend-mode: screen; /* more mobile compatible than lighten */
+            margin-top: 2rem;
+        }
+        .section-title {
+            margin-bottom: 1.5rem;
+        }
+        .py-5 {
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
+        }
+        .my-5 {
+            margin-top: 2rem !important;
+            margin-bottom: 2rem !important;
+        }
+        .p-5 {
+            padding: 2rem !important;
+        }
+    }
 </style>
 {% endblock %}
 
