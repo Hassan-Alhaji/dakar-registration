@@ -457,13 +457,56 @@
             input.addEventListener('change', updateProgress);
         });
 
-        // Launch animation on submit
+        const isRTL = document.documentElement.dir === 'rtl' || document.body.classList.contains('rtl');
+        if (isRTL) {
+            carIndicator.style.left = 'auto';
+            carIndicator.style.right = '0%';
+            carIndicator.style.transform = 'scaleX(-1)'; // Flip car to face left
+        }
+
+        // Form Submission Validation
         form.addEventListener('submit', function(e) {
-            if (form.checkValidity()) {
-                // Animate car zooming off
-                gsap.to(carIndicator, {left: '120%', duration: 1.5, ease: "power2.in"});
-                gsap.to(rpmContainer, {opacity: 0, duration: 1, delay: 0.5});
+            if (!form.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Find first invalid element
+                const firstInvalid = form.querySelector(':invalid');
+                if (firstInvalid) {
+                    firstInvalid.focus();
+                }
+
+                // Show SweetAlert popup
+                Swal.fire({
+                    icon: 'error',
+                    title: isRTL ? 'بيانات ناقصة!' : 'Missing Data!',
+                    text: isRTL ? 'الرجاء تعبئة جميع الحقول الإلزامية المحددة باللون الأحمر.' : 'Please fill out all required fields marked in red.',
+                    confirmButtonColor: '#ff003c',
+                    background: '#1a1c23',
+                    color: '#fff'
+                });
+
+                form.classList.add('was-validated');
+                return false;
             }
+
+            const userAnswer = parseInt(document.getElementById('captcha-answer').value);
+            if (userAnswer !== captchaAnswer) {
+                e.preventDefault();
+                document.getElementById('captcha-error').classList.remove('d-none');
+                document.getElementById('captcha-answer').focus();
+                gsap.fromTo('#captcha-error', {x: -10}, {x: 0, duration: 0.3, ease: 'elastic.out(1, 0.3)'});
+                generateCaptcha();
+                return false;
+            }
+
+            // Animate car zooming off
+            if (isRTL) {
+                gsap.to(carIndicator, {right: '120%', duration: 1.5, ease: "power2.in"});
+            } else {
+                gsap.to(carIndicator, {left: '120%', duration: 1.5, ease: "power2.in"});
+            }
+            gsap.to(rpmContainer, {opacity: 0, duration: 1, delay: 0.5});
         });
         
         updateProgress(); // Initial check
