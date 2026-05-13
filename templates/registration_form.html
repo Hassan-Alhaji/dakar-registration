@@ -248,10 +248,19 @@
                     {{ form.updated_date }}
 
                     <!-- القسم الخامس: الشروط والأحكام -->
-                    <h3 class="form-section-title mt-5">{% trans "05 / الشروط والأحكام" %}</h3>
+                    <h3 class="form-section-title mt-5">{% if LANGUAGE_CODE == 'en' %}05 / Terms & Conditions{% else %}{% trans "05 / الشروط والأحكام" %}{% endif %}</h3>
                     <div class="row g-4 mb-4 gs-reveal">
                         <div class="col-12">
                             <div class="p-4 border border-secondary text-light" style="background: var(--dark-gray); max-height: 200px; overflow-y: auto; font-size: 0.95rem; line-height: 1.8;">
+                                {% if LANGUAGE_CODE == 'en' %}
+                                <p class="fw-bold mb-2 text-neon">I acknowledge and agree to the following Terms and Conditions:</p>
+                                <ol class="ps-4 mb-0">
+                                    <li class="mb-2">I commit to maintaining the confidentiality of all information and documents related to the program.</li>
+                                    <li class="mb-2">I agree to grant the Saudi Automobile and Motorcycle Federation (SAMF) full rights to use my data and participation (of any kind) for analysis, development, and marketing purposes.</li>
+                                    <li class="mb-2">I bear full legal responsibility for the accuracy of all provided data and documents.</li>
+                                    <li>I confirm the validity of my medical disclosure, and I take full responsibility for my personal safety or any health issue that may arise during training or competitions. SAMF bears no responsibility or legal/financial consequences as a result.</li>
+                                </ol>
+                                {% else %}
                                 <p class="fw-bold mb-2 text-neon">{% trans "أقر وأوافق على الشروط والأحكام التالية:" %}</p>
                                 <ol class="ps-4 mb-0">
                                     <li class="mb-2">{% trans "أتعهد بالمحافظة على سرية كافة المعلومات والوثائق المتعلقة بالبرنامج." %}</li>
@@ -259,6 +268,7 @@
                                     <li class="mb-2">{% trans "أتحمل المسؤولية القانونية الكاملة عن صحة جميع البيانات والمستندات المقدمة." %}</li>
                                     <li>{% trans "أقر بصحة إفصاحي الطبي، وأتحمل المسؤولية الكاملة عن سلامتي الشخصية أو أي عارض صحي قد ينشأ خلال التدريب أو المنافسات، ولا يتحمل الاتحاد أي مسؤولية أو تبعات قانونية أو مالية نتيجة لذلك." %}</li>
                                 </ol>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-12 mt-3">

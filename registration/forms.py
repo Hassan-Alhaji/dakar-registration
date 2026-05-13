@@ -26,5 +26,15 @@ class RegistrationForm(forms.ModelForm):
             'health_conditions': forms.Textarea(attrs={'rows': 3}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        from django.utils import translation
+        if translation.get_language() == 'en':
+            self.fields['has_driving_license'].label = 'Do you have a valid driving license?'
+            self.fields['has_sports_license'].label = 'Do you have a racing license issued by SAMF?'
+            self.fields['has_previous_experience'].label = 'Do you have previous experience in motorsports?'
+            self.fields['agreed_to_terms'].label = 'I have read and agree to all terms and conditions of the program'
+            self.fields['agreed_to_terms'].error_messages['required'] = 'You must agree to the terms and conditions to complete registration.'
+
     def clean_race_types(self):
         return self.cleaned_data.get('race_types', [])
