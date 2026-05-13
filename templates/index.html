@@ -172,6 +172,16 @@
             padding: 2rem !important;
         }
     }
+
+    /* Fallback CSS animation for cards */
+    .fade-in-up {
+        animation: fadeInUp 1s ease-out forwards;
+        opacity: 0;
+    }
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(30px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
 </style>
 {% endblock %}
 
@@ -245,37 +255,37 @@
 
 <!-- Details & Conditions -->
 <section class="container py-5 mt-5">
-    <h2 class="section-title text-center d-block mb-5 gs-reveal">{% trans "الشروط" %} <span class="text-neon">{% trans "والمعايير" %}</span></h2>
+    <h2 class="section-title text-center d-block mb-5 fade-in-up">{% trans "الشروط" %} <span class="text-neon">{% trans "والمعايير" %}</span></h2>
     
     <div class="row g-4">
         <!-- Card 1 -->
-        <div class="col-md-6 col-lg-4 gs-reveal">
-            <div class="brutalist-card h-100">
+        <div class="col-md-6 col-lg-4">
+            <div class="brutalist-card h-100 fade-in-up">
                 <div class="display-4 text-neon mb-4">01</div>
                 <h4 class="mb-3">{% trans "العمر والخبرة" %}</h4>
-                <p class="text-muted">
+                <p class="text-light" style="opacity: 0.85; line-height: 1.8;">
                     {% trans "يجب ألا يقل عمر المتقدم عن 16 عاماً. يفضل وجود خبرة سابقة في أي من رياضات المحركات (رالي، كارتينج، أوتوكروس)، ولكن الشغف والالتزام هما المعيار الأهم للقبول المبدئي في البرنامج." %}
                 </p>
             </div>
         </div>
         
         <!-- Card 2 -->
-        <div class="col-md-6 col-lg-4 gs-reveal grid-offset">
-            <div class="brutalist-card h-100">
+        <div class="col-md-6 col-lg-4 grid-offset">
+            <div class="brutalist-card h-100 fade-in-up" style="animation-delay: 0.2s;">
                 <div class="display-4 text-neon mb-4">02</div>
                 <h4 class="mb-3">{% trans "اللياقة والصحة" %}</h4>
-                <p class="text-muted">
+                <p class="text-light" style="opacity: 0.85; line-height: 1.8;">
                     {% trans "رياضة الراليات تتطلب قدرة تحمل بدنية وذهنية هائلة. يجب على المتقدم اجتياز الفحوصات الطبية المعتمدة من الاتحاد، والإفصاح عن أي حالات صحية قد تؤثر على سلامته أثناء القيادة في ظروف قاسية." %}
                 </p>
             </div>
         </div>
         
         <!-- Card 3 -->
-        <div class="col-md-6 col-lg-4 gs-reveal">
-            <div class="brutalist-card h-100">
+        <div class="col-md-6 col-lg-4">
+            <div class="brutalist-card h-100 fade-in-up" style="animation-delay: 0.4s;">
                 <div class="display-4 text-neon mb-4">03</div>
                 <h4 class="mb-3">{% trans "الالتزام التام" %}</h4>
-                <p class="text-muted">
+                <p class="text-light" style="opacity: 0.85; line-height: 1.8;">
                     {% trans "المعسكر التدريبي في بيشة يتطلب تفرغاً تاماً لمدة 5 أيام متتالية. سيتم استبعاد أي متدرب يخل بجدول المعسكر أو لا يظهر الالتزام الكافي بقواعد السلامة وتعليمات المدربين." %}
                 </p>
             </div>
