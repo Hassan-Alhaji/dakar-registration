@@ -173,13 +173,13 @@
                     <h3 class="form-section-title mt-5">{% trans "02 / التراخيص والخبرة الفنية" %}</h3>
                     <div class="row g-4 mb-5">
                         <div class="col-md-6">{{ form.category|as_crispy_field }}</div>
-                        <div class="col-md-3 mt-4 pt-2">
-                            <div class="form-check form-switch fs-5">
+                        <div class="col-md-12 mt-4 pt-2">
+                            <div class="form-check form-switch fs-5 text-white">
                                 {{ form.has_driving_license|as_crispy_field }}
                             </div>
                         </div>
-                        <div class="col-md-3 mt-4 pt-2">
-                            <div class="form-check form-switch fs-5">
+                        <div class="col-md-12 mt-4 pt-2">
+                            <div class="form-check form-switch fs-5 text-white">
                                 {{ form.has_sports_license|as_crispy_field }}
                             </div>
                         </div>

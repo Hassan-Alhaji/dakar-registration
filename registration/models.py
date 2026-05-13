@@ -54,12 +54,12 @@ class Registration(models.Model):
     
     # معلومات فنية
     category = models.CharField(max_length=1, choices=CATEGORY_CHOICES, verbose_name=_('الفئة'))
-    has_driving_license = models.BooleanField(verbose_name=_('رخصة القيادة'))
-    has_sports_license = models.BooleanField(verbose_name=_('الرخصة الرياضية'))
+    has_driving_license = models.BooleanField(verbose_name=_('هل لديك رخصة قيادة سارية؟'))
+    has_sports_license = models.BooleanField(verbose_name=_('هل لديك رخصة سباق مصدرة من الاتحاد السعودي للسيارات؟'))
     sports_license_number = models.CharField(max_length=50, blank=True, null=True, verbose_name=_('رقم الرخصة الرياضية'))
     
     # الخبرة السابقة
-    has_previous_experience = models.BooleanField(verbose_name=_('خبرة سابقة'))
+    has_previous_experience = models.BooleanField(verbose_name=_('هل لديك خبرة سابقة في مجال رياضة السيارات؟'))
     race_types = models.JSONField(default=list, blank=True, verbose_name=_('أنواع السباقات'))
     number_of_races = models.PositiveIntegerField(blank=True, null=True, verbose_name=_('عدد السباقات'))
     years_of_experience = models.CharField(
