@@ -40,10 +40,19 @@ class DashboardView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        stats = RegistrationStats.objects.first()
-        if not stats:
-            stats = RegistrationStats.objects.create()
-        context['stats'] = stats
+        
+        # Calculate stats dynamically
+        context['stats'] = {
+            'total_registrations': Registration.objects.count(),
+            'approved': Registration.objects.filter(status='A').count(),
+            'pending': Registration.objects.filter(status='P').count(),
+            'rejected': Registration.objects.filter(status='R').count(),
+            'drivers': Registration.objects.filter(category='D').count(),
+            'navigators': Registration.objects.filter(category='N').count(),
+            'male': Registration.objects.filter(gender='M').count(),
+            'female': Registration.objects.filter(gender='F').count(),
+        }
+        
         context['recent_registrations'] = Registration.objects.all()[:10]
         return context
 
