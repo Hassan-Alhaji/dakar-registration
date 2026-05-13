@@ -432,6 +432,13 @@
         const rpmText = document.getElementById('rpm-text');
         const carIndicator = document.getElementById('car-indicator');
 
+        const isRTL = document.documentElement.dir === 'rtl' || document.body.classList.contains('rtl');
+        
+        // Initial setup for RTL
+        if (isRTL) {
+            carIndicator.style.transform = 'scaleX(-1)'; // Flip car to face left
+        }
+
         function updateProgress() {
             let filled = 0;
             requiredInputs.forEach(input => {
@@ -450,7 +457,15 @@
             }
             
             rpmBar.style.width = percentage + '%';
-            carIndicator.style.left = `calc(${percentage}% - 15px)`;
+            
+            if (isRTL) {
+                carIndicator.style.left = 'auto';
+                carIndicator.style.right = `calc(${percentage}% - 15px)`;
+            } else {
+                carIndicator.style.right = 'auto';
+                carIndicator.style.left = `calc(${percentage}% - 15px)`;
+            }
+            
             rpmText.innerText = percentage + '%';
             
             // Color mapping based on RPM concept
@@ -476,13 +491,6 @@
             input.addEventListener('input', updateProgress);
             input.addEventListener('change', updateProgress);
         });
-
-        const isRTL = document.documentElement.dir === 'rtl' || document.body.classList.contains('rtl');
-        if (isRTL) {
-            carIndicator.style.left = 'auto';
-            carIndicator.style.right = '0%';
-            carIndicator.style.transform = 'scaleX(-1)'; // Flip car to face left
-        }
 
         // Form Submission Validation
         form.addEventListener('submit', function(e) {
