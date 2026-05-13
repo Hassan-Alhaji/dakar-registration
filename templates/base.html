@@ -1,0 +1,481 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% trans "برنامج الجيل القادم - داكار 2027" %}{% endblock %}</title>
+    
+    {% if LANGUAGE_BIDI %}
+    <!-- Bootstrap 5 RTL -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    {% else %}
+    <!-- Bootstrap 5 LTR -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    {% endif %}
+    
+    <!-- Google Fonts: Tajawal & Alexandria -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Alexandria:wght@900&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --neon-green: #00FF41; /* SAMF Neon Green */
+            --neon-green-glow: rgba(0, 255, 65, 0.4);
+            --samf-red: #FF003C;
+            --samf-yellow: #FFF000;
+            --carbon-black: #0B0C10;
+            --dark-gray: #1F2833;
+            --light-gray: #C5C6C7;
+            --white: #FFFFFF;
+        }
+
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--carbon-black);
+            color: var(--light-gray);
+            scroll-behavior: smooth;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--white);
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .text-neon { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green-glow); }
+        .text-red { color: var(--samf-red); }
+        .text-yellow { color: var(--samf-yellow); }
+
+        .title-massive {
+            font-size: clamp(3rem, 10vw, 8rem);
+            line-height: 0.9;
+            font-style: italic;
+            letter-spacing: -2px;
+            margin: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .title-outline {
+            -webkit-text-stroke: 2px var(--white);
+            color: transparent;
+        }
+        
+        .title-outline-neon {
+            -webkit-text-stroke: 2px var(--neon-green);
+            color: transparent;
+            text-shadow: none;
+        }
+
+        /* Navbar - Floating Glass */
+        .navbar-custom {
+            background: rgba(11, 12, 16, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 0;
+            transition: all 0.4s ease;
+            width: 100%;
+        }
+
+        .navbar-brand {
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--white) !important;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .navbar-brand span {
+            color: var(--neon-green);
+        }
+
+        .nav-link {
+            font-weight: 700;
+            color: var(--light-gray) !important;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--neon-green) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-green);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Buttons */
+        .btn-neon {
+            background: var(--neon-green);
+            color: var(--carbon-black);
+            font-weight: 900;
+            font-style: italic;
+            font-size: 1.2rem;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 0; /* Brutalist sharp edges */
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px var(--neon-green-glow);
+            display: inline-block;
+        }
+
+        .btn-neon:hover {
+            background: var(--white);
+            color: var(--carbon-black);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+            transform: skewX(-10deg) translateY(-3px);
+        }
+
+        .btn-outline-neon {
+            background: transparent;
+            color: var(--neon-green);
+            border: 2px solid var(--neon-green);
+            font-weight: 900;
+            border-radius: 0;
+            padding: 0.8rem 2rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-outline-neon:hover {
+            background: var(--neon-green);
+            color: var(--carbon-black);
+            box-shadow: 0 0 15px var(--neon-green-glow);
+        }
+
+        /* Cards & Containers */
+        .brutalist-card {
+            background: var(--dark-gray);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0;
+            padding: 2.5rem;
+            position: relative;
+            transition: transform 0.4s ease, border-color 0.4s ease;
+            width: 100%;
+        }
+
+        .brutalist-card:hover {
+            border-color: var(--neon-green);
+            transform: translateY(-10px);
+        }
+
+        .brutalist-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 30px; height: 30px;
+            border-top: 3px solid var(--neon-green);
+            border-left: 3px solid var(--neon-green);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .brutalist-card:hover::before { opacity: 1; }
+
+        /* Form Controls */
+        .form-control, .form-select {
+            background-color: var(--carbon-black);
+            border: 1px solid #333;
+            border-radius: 0;
+            color: var(--white);
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            max-width: 100%;
+        }
+
+        textarea.form-control {
+            min-height: 180px;
+        }
+
+        .form-control:focus, .form-select:focus {
+            background-color: #111;
+            border-color: var(--neon-green);
+            color: var(--white);
+            box-shadow: none;
+            outline: none;
+        }
+
+        /* Marquee Animation */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            background: var(--neon-green);
+            color: var(--carbon-black);
+            padding: 10px 0;
+            transform: rotate(-2deg) scale(1.1);
+            z-index: 10;
+        }
+
+        .marquee-text {
+            display: inline-block;
+            font-size: 1.5rem;
+            font-weight: 900;
+            font-style: italic;
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(50%); } /* RTL scrolling */
+        }
+        [dir="ltr"] .marquee-text {
+            animation-direction: reverse;
+        }
+
+        /* Scribbles & Accents */
+        .scribble {
+            position: absolute;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .footer {
+            background-color: var(--dark-gray);
+            border-top: 3px solid var(--neon-green);
+            padding: 2rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--carbon-black); }
+        ::-webkit-scrollbar-thumb { background: #333; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-green); }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--carbon-black);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        .loader-wheel {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 5px solid #333;
+            border-bottom-color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 20px;
+            overflow: hidden;
+        }
+        .loader-needle {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            width: 4px;
+            height: 50px;
+            background-color: var(--samf-red);
+            transform-origin: bottom center;
+            transform: rotate(-70deg);
+            animation: revEngine 1.5s ease-in-out infinite alternate;
+            box-shadow: 0 0 10px var(--samf-red);
+        }
+        .loader-needle::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: -3px;
+            width: 10px;
+            height: 10px;
+            background: var(--white);
+            border-radius: 50%;
+        }
+        @keyframes revEngine {
+            0% { transform: rotate(-70deg); }
+            40% { transform: rotate(20deg); }
+            60% { transform: rotate(10deg); }
+            100% { transform: rotate(70deg); }
+        }
+        .preloader-hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-wheel">
+            <div class="loader-needle"></div>
+        </div>
+        <h3 class="text-neon mt-4 fw-bold fst-italic">{% trans "شغل المحرك..." %}</h3>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'index' %}">
+                SAMF <span>NEXT GEN</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars text-white fs-2"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 mt-3 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="{% url 'index' %}">{% trans "الرئيسية" %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link mx-2" href="{% url 'register' %}">{% trans "سجل في المعسكر" %}</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    <form action="{% url 'set_language' %}" method="post" class="m-0 p-0">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+                        {% if LANGUAGE_CODE == 'en' %}
+                            <input type="hidden" name="language" value="ar">
+                            <button type="submit" class="btn btn-link text-white text-decoration-none fw-bold hover-neon d-flex align-items-center border border-secondary rounded px-2 py-1 m-0" style="background: rgba(255,255,255,0.05);">
+                                عربي <i class="fas fa-globe ms-2 text-neon"></i>
+                            </button>
+                        {% else %}
+                            <input type="hidden" name="language" value="en">
+                            <button type="submit" class="btn btn-link text-white text-decoration-none fw-bold hover-neon d-flex align-items-center border border-secondary rounded px-2 py-1 m-0" style="background: rgba(255,255,255,0.05);">
+                                EN <i class="fas fa-globe ms-2 text-neon"></i>
+                            </button>
+                        {% endif %}
+                    </form>
+                    
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'dashboard' %}" class="btn btn-outline-neon d-none d-lg-block">
+                            <i class="fas fa-satellite-dish me-2"></i> {% trans "مركز القيادة" %}
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="min-vh-100" style="padding-top: 80px;">
+        {% if messages %}
+            <div class="container mt-4">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} bg-dark-gray border-start border-4 border-{{ message.tags }} text-white rounded-0 alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center border-bottom border-secondary pb-3 mb-3">
+                <div class="col-md-5 mb-3 mb-md-0">
+                    <h3 class="text-white mb-2 fs-5">SAMF <span class="text-neon">NEXGEN 2027</span></h3>
+                    <p class="text-light mb-0 small pe-md-4">
+                        {% trans "البرنامج الوطني لاكتشاف المواهب السعودية في رياضة المحركات، برعاية الاتحاد السعودي للسيارات والدراجات النارية." %}
+                    </p>
+                </div>
+                <div class="col-md-3 mb-3 mb-md-0">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item ms-3"><a href="{% url 'index' %}" class="text-light text-decoration-none hover-neon small">{% trans "الرئيسية" %}</a></li>
+                        <li class="list-inline-item ms-3"><a href="{% url 'register' %}" class="text-light text-decoration-none hover-neon small">{% trans "التسجيل" %}</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-light text-decoration-none hover-neon small">{% trans "الشروط" %}</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <div class="d-flex gap-3 justify-content-md-end">
+                        <a href="https://x.com/SAMF_GOV" target="_blank" class="text-light fs-5 hover-neon"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="https://www.instagram.com/samf_gov" target="_blank" class="text-light fs-5 hover-neon"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/channel/UCisumhNvpw_U4vyF--nVLzg" target="_blank" class="text-light fs-5 hover-neon"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://www.tiktok.com/@samf.gov?_t=8fQtf5LE6ao&_r=1" target="_blank" class="text-light fs-5 hover-neon"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="https://www.snapchat.com/@samf.sa" target="_blank" class="text-light fs-5 hover-neon"><i class="fa-brands fa-snapchat"></i></a>
+                        <a href="https://www.facebook.com/SAMFGOV" target="_blank" class="text-light fs-5 hover-neon"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center text-light small">
+                <p class="mb-0">{% trans "جميع الحقوق محفوظة للإتحاد السعودي للسيارات والدراجات النارية &copy; 2026" %}</p>
+                <p class="mb-0 mt-2 mt-md-0 dir-ltr text-end">
+                    <i class="fas fa-envelope text-neon ms-1 me-3"></i> info@samf.gov.sa 
+                    <i class="fas fa-phone text-neon ms-1 me-3"></i> 920015517
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <script>
+        // Hide Preloader on load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('preloader').classList.add('preloader-hidden');
+            }, 1000);
+        });
+        // Fallback: remove preloader after 5s no matter what
+        setTimeout(function() {
+            var p = document.getElementById('preloader');
+            if (p) p.classList.add('preloader-hidden');
+        }, 5000);
+
+        gsap.registerPlugin(ScrollTrigger);
+        
+        // Add hover neon class for custom links
+        document.querySelectorAll('.hover-neon').forEach(el => {
+            el.addEventListener('mouseenter', () => { el.style.color = 'var(--neon-green)'; });
+            el.addEventListener('mouseleave', () => { el.style.color = ''; });
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

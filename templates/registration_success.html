@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "تم التسجيل بنجاح | برنامج الجيل القادم" %}{% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+    <div class="row justify-content-center text-center py-5">
+        <div class="col-md-8">
+            <div class="p-5" style="background: var(--carbon-black); border-left: 5px solid var(--neon-green);">
+                <div class="mb-4">
+                    <i class="fas fa-check-square text-neon" style="font-size: 5rem;"></i>
+                </div>
+                <h1 class="title-massive text-white mb-4">{% trans "تم الإرسال" %}</h1>
+                <p class="lead text-light mb-5">
+                    {% trans "شكراً، وسيتم التواصل معك قريباً. نتمنى لك كل التوفيق." %}
+                </p>
+                <div>
+                    <a href="{% url 'index' %}" class="btn btn-outline-neon px-5 py-3 fw-bold">{% trans "الرئيسية" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

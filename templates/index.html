@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "الرئيسية | برنامج الجيل القادم - داكار 2027" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero Section */
+    .hero-container {
+        position: relative;
+        min-height: 90vh;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        padding-top: 5rem;
+    }
+
+    .hero-bg {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2500&auto=format&fit=crop') no-repeat center center;
+        background-size: cover;
+        opacity: 0.4;
+        filter: grayscale(100%) contrast(120%);
+        z-index: 0;
+    }
+
+    /* Topographic lines overlay */
+    .hero-topo {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><path d="M0,50 Q150,150 300,50 T600,50" fill="none" stroke="rgba(0,255,65,0.1)" stroke-width="2"/></svg>');
+        background-size: 600px 200px;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 5;
+    }
+
+    .hero-title-layer {
+        position: relative;
+    }
+
+    .hero-title-back {
+        position: absolute;
+        top: -20px;
+        left: -10px;
+        font-family: 'Alexandria', sans-serif;
+        font-size: 8rem;
+        font-weight: 900;
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.05);
+        z-index: 1;
+        white-space: nowrap;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1.2rem, 3vw, 2rem);
+        color: var(--light-gray);
+        border-inline-start: 4px solid var(--neon-green);
+        padding-inline-start: 15px;
+        margin-top: 2rem;
+        max-width: 600px;
+    }
+
+
+    /* Section Headers */
+    .section-title {
+        font-size: clamp(2.5rem, 6vw, 5rem);
+        font-weight: 900;
+        font-style: italic;
+        color: var(--white);
+        margin-bottom: 3rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 10px;
+        right: -20px;
+        width: 50px;
+        height: 50px;
+        background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M10,90 L90,10 L90,90 Z" fill="%2300FF41" opacity="0.3"/></svg>') no-repeat;
+        z-index: -1;
+    }
+    /* Harmony Animation */
+    .harmony-band {
+        position: absolute;
+        top: 10%;
+        left: 0;
+        width: 200%;
+        height: 60%;
+        display: flex;
+        align-content: flex-start;
+        gap: 30px;
+        flex-wrap: wrap;
+        opacity: 0.15;
+        z-index: 1;
+        pointer-events: none;
+        animation: slideHarmony 80s linear infinite;
+    }
+    .h-sq {
+        width: 40px; height: 40px;
+        opacity: 0.7;
+    }
+    @keyframes slideHarmony {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    /* Glitch and Glow Text */
+    .glitch-text {
+        position: relative;
+        display: inline-block;
+        animation: glitch-shake 3s infinite;
+        text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+    }
+    @keyframes glitch-shake {
+        0%, 90% { transform: translate(0, 0) skew(0deg); }
+        92% { transform: translate(-3px, 2px) skew(3deg); }
+        94% { transform: translate(3px, -2px) skew(-3deg); }
+        96% { transform: translate(-2px, 3px) skew(2deg); }
+        98% { transform: translate(2px, -3px) skew(-2deg); }
+        100% { transform: translate(0, 0) skew(0deg); }
+    }
+
+    /* 3D Pop Out Image */
+    .img-pop-out {
+        width: 100%;
+        height: auto;
+        mix-blend-mode: lighten; /* Removes pitch black background */
+        transform: scale(1.1) perspective(1000px) rotateY(-15deg) translateZ(40px);
+        transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        filter: drop-shadow(0 0 15px rgba(0,255,65,0.3));
+    }
+    .img-pop-out:hover {
+        transform: scale(1.15) perspective(1000px) rotateY(-5deg) translateZ(80px);
+        filter: drop-shadow(0 0 30px rgba(0,255,65,0.6));
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-container">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-topo"></div>
+    
+    <!-- Marquee Background Text -->
+    <div class="marquee-container" style="position: absolute; top: 15%; opacity: 0.05; transform: rotate(5deg) scale(1.5);">
+        <div class="marquee-text title-massive">
+            SAMF NEXGEN 2027 SAMF NEXGEN 2027 SAMF NEXGEN 2027
+        </div>
+    </div>
+
+    <div class="container hero-content">
+        <div class="row">
+            <div class="col-lg-10">
+                <div class="hero-title-layer">
+                    <h1 class="title-massive hero-title-back">{% trans "الجيل القادم" %}</h1>
+                    <h1 class="title-massive text-white gs-reveal">{% trans "الجيل" %} <br><span class="text-neon">{% trans "القادم." %}</span></h1>
+                </div>
+                <p class="hero-subtitle gs-reveal">
+                    {% trans "البرنامج الوطني الأضخم لاستقطاب وتدريب المواهب السعودية الشابة في عالم الراليات والمحركات. طريقك نحو تمثيل المملكة في رالي داكار 2027 يبدأ من معسكر بيشة." %}
+                </p>
+                <div class="mt-5 gs-reveal">
+                    <a href="{% url 'register' %}" class="btn btn-neon me-3">{% trans "سجل الآن" %} <i class="fas fa-arrow-{% if LANGUAGE_BIDI %}left{% else %}right{% endif %} ms-2"></i></a>
+                    <a href="#about" class="btn btn-outline-neon">{% trans "اكتشف البرنامج" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Marquee Divider -->
+<div class="marquee-container mt-5 mb-5">
+    <div class="marquee-text">
+        <i class="fas fa-bolt mx-3"></i> {% trans "الراليات الصحراوية" %} <i class="fas fa-bolt mx-3"></i> {% trans "الفورمولا والكارتينج" %} <i class="fas fa-bolt mx-3"></i> {% trans "الأوتوكروس" %} <i class="fas fa-bolt mx-3"></i> {% trans "الدرفت" %} <i class="fas fa-bolt mx-3"></i> {% trans "كسر الزمن" %} <i class="fas fa-bolt mx-3"></i> {% trans "الدراجات النارية" %}
+    </div>
+</div>
+
+<!-- About Section -->
+<section id="about" class="container py-5">
+    <div class="row g-5 align-items-center">
+        <div class="col-lg-6 gs-reveal">
+            <h2 class="section-title">{% trans "عن" %} <br><span class="title-outline-neon">{% trans "البرنامج" %}</span></h2>
+            <p class="lead text-white fw-bold mb-4">
+                {% trans "تطلق وزارة الرياضة بالتعاون مع الاتحاد السعودي للسيارات والدراجات النارية برنامج الجيل القادم ضمن رؤية 2030 لتمكين أبطال المستقبل." %}
+            </p>
+            <p class="text-muted mb-4 fs-5" style="line-height: 1.8;">
+                {% trans "نبحث عن السائقين والملاحين الذين يمتلكون الشغف الحقيقي، الإرادة الصلبة، والمهارة الفطرية للتعامل مع أقسى التضاريس. سيتم اختيار نخبة من المتقدمين للانضمام إلى معسكر تدريبي مغلق ومكثف في مدينة بيشة." %}
+            </p>
+            <ul class="list-unstyled text-white mt-4 fs-5">
+                <li class="mb-3"><i class="fas fa-check-square text-neon me-2"></i> {% trans "تدريب عملي ونظري مكثف لمدة 5 أيام" %}.</li>
+                <li class="mb-3"><i class="fas fa-check-square text-neon me-2"></i> {% trans "سيارات رالي مجهزة بالكامل ومسارات قاسية حقيقية" %}.</li>
+                <li class="mb-3"><i class="fas fa-check-square text-neon me-2"></i> {% trans "تقييم شامل للمهارات القيادية والملاحية" %}.</li>
+            </ul>
+        </div>
+        <div class="col-lg-6 gs-reveal">
+            <div class="position-relative">
+                <img src="{% static 'images/hero_car_3d.png' %}" class="img-pop-out" alt="Rally Car">
+                <div class="position-absolute bottom-0 start-0 p-4 bg-carbon-black border border-secondary m-3 d-none d-md-block" style="background: var(--carbon-black); z-index: 2;">
+                    <h3 class="text-neon mb-0">{% trans "داكار 2027" %}</h3>
+                    <p class="text-muted mb-0">{% trans "الهدف النهائي" %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Details & Conditions -->
+<section class="container py-5 mt-5">
+    <h2 class="section-title text-center d-block mb-5 gs-reveal">{% trans "الشروط" %} <span class="text-neon">{% trans "والمعايير" %}</span></h2>
+    
+    <div class="row g-4">
+        <!-- Card 1 -->
+        <div class="col-md-6 col-lg-4 gs-reveal">
+            <div class="brutalist-card h-100">
+                <div class="display-4 text-neon mb-4">01</div>
+                <h4 class="mb-3">{% trans "العمر والخبرة" %}</h4>
+                <p class="text-muted">
+                    {% trans "يجب ألا يقل عمر المتقدم عن 16 عاماً. يفضل وجود خبرة سابقة في أي من رياضات المحركات (رالي، كارتينج، أوتوكروس)، ولكن الشغف والالتزام هما المعيار الأهم للقبول المبدئي في البرنامج." %}
+                </p>
+            </div>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="col-md-6 col-lg-4 gs-reveal grid-offset">
+            <div class="brutalist-card h-100">
+                <div class="display-4 text-neon mb-4">02</div>
+                <h4 class="mb-3">{% trans "اللياقة والصحة" %}</h4>
+                <p class="text-muted">
+                    {% trans "رياضة الراليات تتطلب قدرة تحمل بدنية وذهنية هائلة. يجب على المتقدم اجتياز الفحوصات الطبية المعتمدة من الاتحاد، والإفصاح عن أي حالات صحية قد تؤثر على سلامته أثناء القيادة في ظروف قاسية." %}
+                </p>
+            </div>
+        </div>
+        
+        <!-- Card 3 -->
+        <div class="col-md-6 col-lg-4 gs-reveal">
+            <div class="brutalist-card h-100">
+                <div class="display-4 text-neon mb-4">03</div>
+                <h4 class="mb-3">{% trans "الالتزام التام" %}</h4>
+                <p class="text-muted">
+                    {% trans "المعسكر التدريبي في بيشة يتطلب تفرغاً تاماً لمدة 5 أيام متتالية. سيتم استبعاد أي متدرب يخل بجدول المعسكر أو لا يظهر الالتزام الكافي بقواعد السلامة وتعليمات المدربين." %}
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="container py-5 my-5">
+    <div class="p-5 text-center position-relative" style="background: var(--dark-gray); border-left: 10px solid var(--neon-green);">
+        <i class="fas fa-flag-checkered position-absolute top-50 start-50 translate-middle" style="font-size: 15rem; color: rgba(255,255,255,0.03);"></i>
+        <div class="position-relative z-1 gs-reveal">
+            <h2 class="title-massive text-white mb-4">{% trans "هل أنت" %} <span class="text-neon glitch-text">{% trans "مستعد؟" %}</span></h2>
+            <p class="lead text-light mb-5 w-75 mx-auto">
+                {% trans "المقاعد محدودة جداً ولن تقبل إلا طلبات النخبة. قم بتعبئة الاستمارة الآن بدقة، وأرفق صوراً واضحة لرخصك وإثباتات خبراتك إن وجدت." %} 
+            </p>
+            <a href="{% url 'register' %}" class="btn btn-neon btn-lg px-5">{% trans "بدء عملية التسجيل" %} <i class="fas fa-tachometer-alt ms-2"></i></a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Simple GSAP reveal animation for elements
+        gsap.utils.toArray('.gs-reveal').forEach(function(elem) {
+            gsap.fromTo(elem, 
+                { y: 50, opacity: 0 }, 
+                {
+                    y: 0, 
+                    opacity: 1, 
+                    duration: 1, 
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: elem,
+                        start: "top 85%", // when top of element hits 85% of viewport
+                    }
+                }
+            );
+        });
+
+        // Parallax effect on hero background
+        gsap.to('#heroBg', {
+            yPercent: 30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero-container",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Harmony Animation Setup
+        const harmonyContainer = document.createElement('div');
+        harmonyContainer.className = 'harmony-band';
+        const colors = ['#006C35', '#E3000F', '#FFC000', '#0078C1', '#888888']; // SAMF Colors
+        for (let i = 0; i < 200; i++) {
+            const sq = document.createElement('div');
+            sq.className = 'h-sq';
+            sq.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            sq.style.marginTop = Math.floor(Math.random() * 80) + 'px';
+            sq.style.marginLeft = Math.floor(Math.random() * 40) + 'px';
+            harmonyContainer.appendChild(sq);
+        }
+        const heroContainer = document.querySelector('.hero-container');
+        if (heroContainer) {
+            heroContainer.appendChild(harmonyContainer);
+        }
+    });
+</script>
+{% endblock %}

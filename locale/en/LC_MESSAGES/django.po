@@ -1,0 +1,628 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-13 12:00+0300\n"
+"PO-Revision-Date: 2026-05-13 12:00+0300\n"
+"Last-Translator: Auto <auto@example.com>\n"
+"Language-Team: English <en@example.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "الرئيسية | برنامج الجيل القادم - داكار 2027"
+msgstr "Home | Next Gen Program - Dakar 2027"
+
+msgid "برنامج الجيل القادم - داكار 2027"
+msgstr "Next Gen Program - Dakar 2027"
+
+msgid "تسجيل مشارك | برنامج الجيل القادم"
+msgstr "Register | Next Gen Program"
+
+msgid "تم التسجيل بنجاح | برنامج الجيل القادم"
+msgstr "Registration Successful | Next Gen Program"
+
+msgid "الرئيسية"
+msgstr "Home"
+
+msgid "التسجيل"
+msgstr "Registration"
+
+msgid "سجل في المعسكر"
+msgstr "Register in Camp"
+
+msgid "الشروط"
+msgstr "Terms"
+
+msgid "مركز القيادة"
+msgstr "Dashboard"
+
+msgid "شغل المحرك..."
+msgstr "Start Engine..."
+
+msgid "الجيل القادم"
+msgstr "Next Gen"
+
+msgid "الجيل"
+msgstr "Next"
+
+msgid "القادم."
+msgstr "Gen."
+
+msgid ""
+"البرنامج الوطني الأضخم لاستقطاب وتدريب المواهب السعودية الشابة في عالم "
+"الراليات والمحركات. طريقك نحو تمثيل المملكة في رالي داكار 2027 يبدأ من معسكر"
+" بيشة."
+msgstr ""
+"The largest national program for recruiting and training young Saudi talents"
+" in the world of rallying and motorsports. Your path to representing the "
+"Kingdom in Dakar Rally 2027 starts from Bisha Camp."
+
+msgid "سجل الآن"
+msgstr "Register Now"
+
+msgid "اكتشف البرنامج"
+msgstr "Discover the Program"
+
+msgid "الراليات الصحراوية"
+msgstr "Desert Rallies"
+
+msgid "الفورمولا والكارتينج"
+msgstr "Formula & Karting"
+
+msgid "الأوتوكروس"
+msgstr "Autocross"
+
+msgid "الدرفت"
+msgstr "Drifting"
+
+msgid "كسر الزمن"
+msgstr "Time Attack"
+
+msgid "الدراجات النارية"
+msgstr "Motorcycles"
+
+msgid "عن"
+msgstr "About"
+
+msgid "البرنامج"
+msgstr "The Program"
+
+msgid ""
+"تطلق وزارة الرياضة بالتعاون مع الاتحاد السعودي للسيارات والدراجات النارية "
+"برنامج الجيل القادم ضمن رؤية 2030 لتمكين أبطال المستقبل."
+msgstr ""
+"The Ministry of Sports, in cooperation with the Saudi Automobile and "
+"Motorcycle Federation, launches the Next Gen Program under Vision 2030 to "
+"empower future champions."
+
+msgid ""
+"نبحث عن السائقين والملاحين الذين يمتلكون الشغف الحقيقي، الإرادة الصلبة، "
+"والمهارة الفطرية للتعامل مع أقسى التضاريس. سيتم اختيار نخبة من المتقدمين "
+"للانضمام إلى معسكر تدريبي مغلق ومكثف في مدينة بيشة."
+msgstr ""
+"We are looking for drivers and navigators who possess true passion, solid "
+"willpower, and natural skills to handle the toughest terrains. An elite "
+"group of applicants will be selected to join a closed intensive training "
+"camp in Bisha."
+
+msgid "تدريب عملي ونظري مكثف لمدة 5 أيام"
+msgstr "Intensive practical and theoretical training for 5 days"
+
+msgid "سيارات رالي مجهزة بالكامل ومسارات قاسية حقيقية"
+msgstr "Fully equipped rally cars and real tough tracks"
+
+msgid "تقييم شامل للمهارات القيادية والملاحية"
+msgstr "Comprehensive assessment of driving and navigation skills"
+
+msgid "داكار 2027"
+msgstr "Dakar 2027"
+
+msgid "الهدف النهائي"
+msgstr "The Ultimate Goal"
+
+msgid "والمعايير"
+msgstr "and Standards"
+
+msgid "العمر والخبرة"
+msgstr "Age & Experience"
+
+msgid ""
+"يجب ألا يقل عمر المتقدم عن 16 عاماً. يفضل وجود خبرة سابقة في أي من رياضات "
+"المحركات (رالي، كارتينج، أوتوكروس)، ولكن الشغف والالتزام هما المعيار الأهم "
+"للقبول المبدئي في البرنامج."
+msgstr ""
+"Applicants must be at least 16 years old. Previous experience in any "
+"motorsport (rally, karting, autocross) is preferred, but passion and "
+"commitment are the most important criteria for initial acceptance into the "
+"program."
+
+msgid "اللياقة والصحة"
+msgstr "Fitness & Health"
+
+msgid ""
+"رياضة الراليات تتطلب قدرة تحمل بدنية وذهنية هائلة. يجب على المتقدم اجتياز "
+"الفحوصات الطبية المعتمدة من الاتحاد، والإفصاح عن أي حالات صحية قد تؤثر على "
+"سلامته أثناء القيادة في ظروف قاسية."
+msgstr ""
+"Rally motorsport requires tremendous physical and mental endurance. "
+"Applicants must pass federation-approved medical examinations and disclose "
+"any health conditions that may affect their safety while driving in harsh "
+"conditions."
+
+msgid "الالتزام التام"
+msgstr "Full Commitment"
+
+msgid ""
+"المعسكر التدريبي في بيشة يتطلب تفرغاً تاماً لمدة 5 أيام متتالية. سيتم "
+"استبعاد أي متدرب يخل بجدول المعسكر أو لا يظهر الالتزام الكافي بقواعد السلامة"
+" وتعليمات المدربين."
+msgstr ""
+"The training camp in Bisha requires full dedication for 5 consecutive days. "
+"Any trainee who disrupts the camp schedule or fails to show sufficient "
+"commitment to safety rules and instructor guidelines will be excluded."
+
+msgid "هل أنت"
+msgstr "Are you"
+
+msgid "مستعد؟"
+msgstr "Ready?"
+
+msgid ""
+"المقاعد محدودة جداً ولن تقبل إلا طلبات النخبة. قم بتعبئة الاستمارة الآن "
+"بدقة، وأرفق صوراً واضحة لرخصك وإثباتات خبراتك إن وجدت."
+msgstr ""
+"Seats are extremely limited and only elite applications will be accepted. "
+"Fill out the form accurately now, and attach clear photos of your licenses "
+"and proof of your experience if any."
+
+msgid "بدء عملية التسجيل"
+msgstr "Start Registration"
+
+msgid "لوحة"
+msgstr "Registration"
+
+msgid ""
+"هذه هي نقطة الانطلاق. تأكد من إدخال جميع بياناتك بدقة لتزيد من فرص قبولك في "
+"المعسكر التجريبي بمدينة بيشة."
+msgstr ""
+"This is the starting point. Make sure to enter all your data accurately to "
+"increase your chances of acceptance in the training camp in Bisha."
+
+msgid "الحقول المميزة بـ (*) إلزامية."
+msgstr "Fields marked with (*) are required."
+
+msgid "01 / هويتك الشخصية"
+msgstr "01 / Personal Identity"
+
+msgid "02 / التراخيص والخبرة الفنية"
+msgstr "02 / Licenses & Technical Experience"
+
+msgid "حدد أنواع السباقات التي شاركت بها:"
+msgstr "Select the race types you have participated in:"
+
+msgid "03 / التقييم البدني والمهاري"
+msgstr "03 / Physical & Skill Assessment"
+
+msgid "قيم قدراتك في القيادة على الكثبان الرملية (1-5)"
+msgstr "Rate your desert dune driving skills (1-5)"
+
+msgid "اكتب بوضوح دافعك الرئيسي. نبحث عن الشغف الحقيقي، لا الكلمات المنمقة."
+msgstr ""
+"Write your main motivation clearly. We are looking for true passion, not "
+"fancy words."
+
+msgid ""
+"الرالي يتطلب مجهوداً عالياً. الرجاء الإفصاح عن أي ظروف طبية للحرص على "
+"سلامتك."
+msgstr ""
+"Rallying requires high physical effort. Please disclose any medical "
+"conditions to ensure your safety."
+
+msgid "04 / المرفقات والالتزام"
+msgstr "04 / Attachments & Commitment"
+
+msgid "السيرة الذاتية أو سجل الإنجازات (اختياري)"
+msgstr "CV or achievements record (optional)"
+
+msgid "إرسال طلب التسجيل"
+msgstr "Submit Application"
+
+msgid "الاسم الكامل"
+msgstr "Full Name"
+
+msgid "العمر"
+msgstr "Age"
+
+msgid "الجنس"
+msgstr "Gender"
+
+msgid "رقم الهوية"
+msgstr "ID Number"
+
+msgid "الجنسية"
+msgstr "Nationality"
+
+msgid "رقم الجوال"
+msgstr "Phone Number"
+
+msgid "البريد الإلكتروني"
+msgstr "Email"
+
+msgid "الفئة"
+msgstr "Category"
+
+msgid "رخصة القيادة"
+msgstr "Driving License"
+
+msgid "الرخصة الرياضية"
+msgstr "Sports License"
+
+msgid "رقم الرخصة الرياضية"
+msgstr "Sports License Number"
+
+msgid "خبرة سابقة"
+msgstr "Previous Experience"
+
+msgid "أنواع السباقات"
+msgstr "Race Types"
+
+msgid "عدد السباقات"
+msgstr "Number of Races"
+
+msgid "سنوات الخبرة"
+msgstr "Years of Experience"
+
+msgid "تقييم القيادة الصحراوية"
+msgstr "Desert Driving Rating"
+
+msgid "ما هو هدفك من التسجيل في البرنامج"
+msgstr "What is your goal from registering in the program?"
+
+msgid "الالتزام بـ 5 أيام"
+msgstr "Committed to 5 days"
+
+msgid "الحالات الصحية"
+msgstr "Health Conditions"
+
+msgid "منطقة الإقامة"
+msgstr "Residence Region"
+
+msgid "القدرة على السفر"
+msgstr "Can Travel"
+
+msgid "الصورة الشخصية"
+msgstr "Profile Photo"
+
+msgid "مستندات الخبرة"
+msgstr "Experience Docs"
+
+msgid "حالة التسجيل"
+msgstr "Registration Status"
+
+msgid "تاريخ التسجيل"
+msgstr "Application Date"
+
+msgid "تاريخ التحديث"
+msgstr "Updated Date"
+
+msgid "تاريخ المراجعة"
+msgstr "Reviewed Date"
+
+msgid "ملاحظات المسؤول"
+msgstr "Admin Notes"
+
+msgid "مراجع من قبل"
+msgstr "Reviewed By"
+
+msgid "ذكر"
+msgstr "Male"
+
+msgid "أنثى"
+msgstr "Female"
+
+msgid "متسابق"
+msgstr "Driver"
+
+msgid "ملاح"
+msgstr "Navigator"
+
+msgid "قيد الانتظار"
+msgstr "Pending"
+
+msgid "موافق عليه"
+msgstr "Approved"
+
+msgid "مرفوض"
+msgstr "Rejected"
+
+msgid "متراجع عنه"
+msgstr "Withdrawn"
+
+msgid "من 1 إلى 2 سنة"
+msgstr "1 to 2 years"
+
+msgid "من 2 إلى 5 سنوات"
+msgstr "2 to 5 years"
+
+msgid "أكثر من 5 سنوات"
+msgstr "More than 5 years"
+
+msgid "الراليات"
+msgstr "Rallies"
+
+msgid "الكارتينج"
+msgstr "Karting"
+
+msgid "الرياض"
+msgstr "Riyadh"
+
+msgid "مكة المكرمة"
+msgstr "Makkah"
+
+msgid "المدينة المنورة"
+msgstr "Medina"
+
+msgid "المنطقة الشرقية"
+msgstr "Eastern Region"
+
+msgid "عسير"
+msgstr "Asir"
+
+msgid "الباحة"
+msgstr "Al Baha"
+
+msgid "المنطقة الشمالية"
+msgstr "Northern Region"
+
+msgid "القصيم"
+msgstr "Qassim"
+
+msgid "حائل"
+msgstr "Hail"
+
+msgid "جازان"
+msgstr "Jazan"
+
+msgid "نجران"
+msgstr "Najran"
+
+msgid "تم الإرسال"
+msgstr "Submitted"
+
+msgid "شكراً، وسيتم التواصل معك قريباً. نتمنى لك كل التوفيق."
+msgstr "Thank you. We will contact you soon. We wish you all the best."
+
+msgid ""
+"البرنامج الوطني لاكتشاف المواهب السعودية في رياضة المحركات، برعاية الاتحاد "
+"السعودي للسيارات والدراجات النارية."
+msgstr ""
+"The National Program for Discovering Saudi Talents in Motorsports, sponsored"
+" by the Saudi Automobile and Motorcycle Federation."
+
+msgid ""
+"جميع الحقوق محفوظة للإتحاد السعودي للسيارات والدراجات النارية &copy; 2026"
+msgstr ""
+"All Rights Reserved to the Saudi Automobile and Motorcycle Federation &copy;"
+" 2026"
+
+msgid "مسؤول"
+msgstr "Admin"
+
+msgid "مراجع"
+msgstr "Reviewer"
+
+msgid "عارض"
+msgstr "Viewer"
+
+msgid "المستخدم"
+msgstr "User"
+
+msgid "الدور"
+msgstr "Role"
+
+msgid "القسم"
+msgstr "Department"
+
+msgid "الهاتف"
+msgstr "Phone"
+
+msgid "نشط"
+msgstr "Active"
+
+msgid "تاريخ الإنشاء"
+msgstr "Created Date"
+
+msgid "آخر دخول"
+msgstr "Last Login"
+
+msgid "تمت المراجعة من قبل"
+msgstr "Reviewed By"
+
+msgid "آخر تحديث"
+msgstr "Last Updated"
+
+msgid "نعم"
+msgstr "Yes"
+
+msgid "لا"
+msgstr "No"
+
+msgid "تحقق أنك لست روبوت"
+msgstr "Verify you are not a robot"
+
+msgid "سؤال جديد"
+msgstr "New question"
+
+msgid "الإجابة غير صحيحة، حاول مرة أخرى."
+msgstr "Incorrect answer, please try again."
+
+msgid "تسجيل الدخول"
+msgstr "Login"
+
+msgid "تسجيل"
+msgstr "Login"
+
+msgid "الدخول"
+msgstr "Access"
+
+msgid "مخصص لفريق الإدارة والمراجعين فقط."
+msgstr "For admin and review team only."
+
+msgid "اسم المستخدم أو كلمة المرور غير صحيحة."
+msgstr "Invalid username or password."
+
+msgid "اسم المستخدم"
+msgstr "Username"
+
+msgid "كلمة المرور"
+msgstr "Password"
+
+msgid "دخول"
+msgstr "Sign In"
+
+msgid "العودة للرئيسية"
+msgstr "Back to Home"
+
+msgid "لوحة التحكم"
+msgstr "Dashboard"
+
+msgid "لوحة تحكم الإدارة"
+msgstr "Admin Dashboard"
+
+msgid "عرض كل التسجيلات"
+msgstr "View All Registrations"
+
+msgid "إجمالي التسجيلات"
+msgstr "Total Registrations"
+
+msgid "الموافق عليها"
+msgstr "Approved"
+
+msgid "المرفوضة"
+msgstr "Rejected"
+
+msgid "أحدث التسجيلات"
+msgstr "Recent Registrations"
+
+msgid "الاسم"
+msgstr "Name"
+
+msgid "المنطقة"
+msgstr "Region"
+
+msgid "التاريخ"
+msgstr "Date"
+
+msgid "الحالة"
+msgstr "Status"
+
+msgid "الإجراء"
+msgstr "Action"
+
+msgid "متراجع"
+msgstr "Withdrawn"
+
+msgid "تفاصيل"
+msgstr "Details"
+
+msgid "لا توجد تسجيلات بعد"
+msgstr "No registrations yet"
+
+msgid "توزيع الفئات"
+msgstr "Category Distribution"
+
+msgid "المتسابقون"
+msgstr "Drivers"
+
+msgid "الملاحون"
+msgstr "Navigators"
+
+msgid "الذكور / الإناث"
+msgstr "Male / Female"
+
+msgid "ذكور"
+msgstr "Males"
+
+msgid "إناث"
+msgstr "Females"
+
+msgid "تحميل Excel"
+msgstr "Download Excel"
+
+msgid "تفاصيل التسجيل"
+msgstr "Registration Details"
+
+msgid "تفاصيل طلب:"
+msgstr "Application Details:"
+
+msgid "العودة للقائمة"
+msgstr "Back to List"
+
+msgid "العودة للوحة التحكم"
+msgstr "Back to Dashboard"
+
+msgid "تاريخ التسجيل:"
+msgstr "Registration Date:"
+
+msgid "حالة الطلب:"
+msgstr "Application Status:"
+
+msgid "قبول"
+msgstr "Approve"
+
+msgid "رفض"
+msgstr "Reject"
+
+msgid "انتظار"
+msgstr "Pending"
+
+msgid "معلومات شخصية"
+msgstr "Personal Information"
+
+msgid "معلومات رياضية وفنية"
+msgstr "Sports & Technical Info"
+
+msgid "سنة"
+msgstr "years"
+
+msgid "الجوال"
+msgstr "Phone"
+
+msgid "التقييم والإجابات"
+msgstr "Assessment & Answers"
+
+msgid "ملتزم تماماً"
+msgstr "Fully Committed"
+
+msgid "غير ملتزم"
+msgstr "Not Committed"
+
+msgid "الهدف من البرنامج"
+msgstr "Program Goal"
+
+msgid "لا يوجد"
+msgstr "None"
+
+msgid "المرفقات"
+msgstr "Attachments"
+
+msgid "تحميل المستند"
+msgstr "Download Document"
+
+msgid "صورة شخصية"
+msgstr "Profile Photo"
+
+msgid "قائمة التسجيلات"
+msgstr "Registrations List"
+
+msgid "السابق"
+msgstr "Previous"
+
+msgid "التالي"
+msgstr "Next"
+
+msgid "صفحة"
+msgstr "Page"

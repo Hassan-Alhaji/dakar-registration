@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "قائمة التسجيلات" %} | SAMF NEXGEN{% endblock %}
+
+{% block extra_css %}
+<style>
+    .list-wrapper {
+        background: #f5f6fa;
+        min-height: 100vh;
+        padding: 2rem 0;
+        margin: -80px -15px 0;
+        padding-top: calc(80px + 2rem);
+    }
+    .list-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .list-header h2 {
+        color: #2d3436;
+        font-weight: 800;
+        font-size: 1.5rem;
+        margin: 0;
+        font-style: normal;
+    }
+    .list-header h2 i { color: #667eea; }
+    .btn-back-dash {
+        background: transparent;
+        color: #667eea;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        padding: 8px 20px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s;
+        font-size: 0.9rem;
+    }
+    .btn-back-dash:hover { background: #667eea; color: #fff; }
+
+    .list-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        border: 1px solid #e8ecf1;
+        overflow: hidden;
+    }
+    .list-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    .list-table thead th {
+        background: #f8f9fc;
+        color: #636e72;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 14px 16px;
+        border-bottom: 2px solid #e8ecf1;
+        white-space: nowrap;
+    }
+    .list-table tbody td {
+        padding: 14px 16px;
+        color: #2d3436;
+        font-size: 0.95rem;
+        border-bottom: 1px solid #f0f2f5;
+        vertical-align: middle;
+    }
+    .list-table tbody tr:hover { background: #f8f9fc; }
+    .list-table tbody tr:last-child td { border-bottom: none; }
+    .list-table a { color: #667eea; text-decoration: none; }
+    .list-table a:hover { text-decoration: underline; }
+
+    .badge-s { padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; }
+    .badge-s-pending { background: #fff3cd; color: #856404; }
+    .badge-s-approved { background: #d4edda; color: #155724; }
+    .badge-s-rejected { background: #f8d7da; color: #721c24; }
+    .badge-s-withdrawn { background: #e2e3e5; color: #383d41; }
+
+    .btn-view {
+        background: #667eea; color: #fff; border: none; border-radius: 6px;
+        padding: 5px 14px; font-size: 0.85rem; font-weight: 600;
+        text-decoration: none; transition: all 0.2s; display: inline-block;
+    }
+    .btn-view:hover { background: #5a6fd6; color: #fff; transform: scale(1.03); }
+
+    .empty-msg { text-align: center; padding: 3rem; color: #b2bec3; }
+    .empty-msg i { font-size: 3rem; display: block; margin-bottom: 1rem; }
+
+    /* Pagination */
+    .page-link-custom {
+        background: #fff; color: #667eea; border: 1px solid #e8ecf1;
+        padding: 8px 16px; border-radius: 8px; text-decoration: none;
+        font-weight: 600; transition: all 0.2s;
+    }
+    .page-link-custom:hover { background: #667eea; color: #fff; }
+    .page-info {
+        background: #667eea; color: #fff; padding: 8px 16px;
+        border-radius: 8px; font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+        .list-header { flex-direction: column; align-items: flex-start; }
+        .list-table thead th, .list-table tbody td { padding: 10px 8px; font-size: 0.85rem; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="list-wrapper">
+    <div class="container">
+        <div class="list-header">
+            <h2><i class="fas fa-list-alt me-2"></i> {% trans "قائمة التسجيلات" %}</h2>
+            <a href="{% url 'dashboard' %}" class="btn-back-dash">
+                <i class="fas fa-arrow-right me-1"></i> {% trans "العودة للوحة التحكم" %}
+            </a>
+        </div>
+
+        <div class="list-card">
+            <div class="table-responsive">
+                <table class="list-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>{% trans "الاسم" %}</th>
+                            <th>{% trans "العمر" %}</th>
+                            <th>{% trans "الجوال" %}</th>
+                            <th>{% trans "الفئة" %}</th>
+                            <th>{% trans "المنطقة" %}</th>
+                            <th>{% trans "تاريخ التسجيل" %}</th>
+                            <th>{% trans "الحالة" %}</th>
+                            <th>{% trans "الإجراء" %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reg in registrations %}
+                        <tr>
+                            <td style="color: #b2bec3;">{{ forloop.counter }}</td>
+                            <td><strong>{{ reg.full_name }}</strong></td>
+                            <td>{{ reg.age }}</td>
+                            <td><a href="tel:{{ reg.phone }}">{{ reg.phone }}</a></td>
+                            <td>{{ reg.get_category_display }}</td>
+                            <td>{{ reg.get_residence_region_display }}</td>
+                            <td>{{ reg.application_date|date:"Y/m/d H:i" }}</td>
+                            <td>
+                                {% if reg.status == 'P' %}<span class="badge-s badge-s-pending">{% trans "قيد الانتظار" %}</span>{% endif %}
+                                {% if reg.status == 'A' %}<span class="badge-s badge-s-approved">{% trans "موافق عليه" %}</span>{% endif %}
+                                {% if reg.status == 'R' %}<span class="badge-s badge-s-rejected">{% trans "مرفوض" %}</span>{% endif %}
+                                {% if reg.status == 'W' %}<span class="badge-s badge-s-withdrawn">{% trans "متراجع" %}</span>{% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'registration_detail' reg.pk %}" class="btn-view">{% trans "تفاصيل" %}</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="9">
+                                <div class="empty-msg">
+                                    <i class="fas fa-inbox"></i>
+                                    <p>{% trans "لا توجد تسجيلات بعد" %}</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% if is_paginated %}
+        <nav class="mt-4">
+            <div class="d-flex justify-content-center align-items-center gap-3">
+                {% if page_obj.has_previous %}
+                <a class="page-link-custom" href="?page={{ page_obj.previous_page_number }}">{% trans "السابق" %}</a>
+                {% endif %}
+                <span class="page-info">{% trans "صفحة" %} {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                {% if page_obj.has_next %}
+                <a class="page-link-custom" href="?page={{ page_obj.next_page_number }}">{% trans "التالي" %}</a>
+                {% endif %}
+            </div>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

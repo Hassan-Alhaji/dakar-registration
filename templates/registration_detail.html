@@ -1,0 +1,419 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "تفاصيل التسجيل" %} | {{ registration.full_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .detail-wrapper {
+        background: #f5f6fa;
+        min-height: 100vh;
+        padding: 2rem 0;
+        margin: -80px -15px 0;
+        padding-top: calc(80px + 2rem);
+    }
+    .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .detail-header h2 {
+        color: #2d3436;
+        font-weight: 800;
+        font-size: 1.5rem;
+        margin: 0;
+        font-style: normal;
+    }
+    .detail-header h2 span { color: #667eea; }
+
+    .btn-back {
+        background: transparent;
+        color: #667eea;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        padding: 8px 20px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s;
+        font-size: 0.9rem;
+    }
+    .btn-back:hover { background: #667eea; color: #fff; }
+
+    .info-card {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        border: 1px solid #e8ecf1;
+        overflow: hidden;
+        height: 100%;
+    }
+    .info-card-header {
+        background: #f8f9fc;
+        padding: 14px 20px;
+        border-bottom: 2px solid #e8ecf1;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .info-card-header h5 {
+        margin: 0;
+        font-weight: 800;
+        font-size: 1rem;
+        color: #2d3436;
+        font-style: normal;
+    }
+    .info-card-header i { color: #667eea; }
+    .info-card-body { padding: 20px; }
+
+    .info-table { width: 100%; }
+    .info-table tr { border-bottom: 1px solid #f0f2f5; }
+    .info-table tr:last-child { border-bottom: none; }
+    .info-table td { padding: 10px 8px; vertical-align: middle; }
+    .info-table .label-cell {
+        color: #636e72;
+        font-weight: 600;
+        font-size: 0.9rem;
+        width: 40%;
+        white-space: nowrap;
+    }
+    .info-table .value-cell {
+        color: #2d3436;
+        font-weight: 500;
+    }
+    .info-table a { color: #667eea; text-decoration: none; }
+    .info-table a:hover { text-decoration: underline; }
+
+    /* Status Bar */
+    .status-bar {
+        background: #fff;
+        border-radius: 12px;
+        padding: 16px 24px;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        border: 1px solid #e8ecf1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    .status-label {
+        color: #2d3436;
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+    .badge-lg {
+        padding: 6px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+    .badge-pending-lg { background: #fff3cd; color: #856404; }
+    .badge-approved-lg { background: #d4edda; color: #155724; }
+    .badge-rejected-lg { background: #f8d7da; color: #721c24; }
+    .badge-withdrawn-lg { background: #e2e3e5; color: #383d41; }
+
+    .action-btn {
+        border: none;
+        border-radius: 8px;
+        padding: 8px 18px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: #fff;
+    }
+    .action-btn:hover { opacity: 0.85; transform: scale(1.03); }
+    .action-btn-approve { background: #00b894; }
+    .action-btn-reject { background: #d63031; }
+    .action-btn-pending { background: #fdcb6e; color: #2d3436; }
+
+    /* Text Blocks */
+    .text-block {
+        background: #f8f9fc;
+        border: 1px solid #e8ecf1;
+        border-radius: 8px;
+        padding: 16px;
+        color: #2d3436;
+        line-height: 1.8;
+        min-height: 60px;
+    }
+    .meta-label {
+        color: #636e72;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+
+    .rating-big {
+        font-size: 2rem;
+        font-weight: 900;
+        color: #667eea;
+    }
+    .rating-big small { font-size: 1rem; color: #b2bec3; }
+
+    .badge-bool {
+        padding: 5px 14px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+    .badge-yes { background: #d4edda; color: #155724; }
+    .badge-no { background: #f8d7da; color: #721c24; }
+
+    /* Date info */
+    .date-info {
+        background: #f8f9fc;
+        border: 1px solid #e8ecf1;
+        border-radius: 8px;
+        padding: 12px 16px;
+        color: #636e72;
+        font-size: 0.85rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .date-info i { color: #667eea; }
+    .date-info strong { color: #2d3436; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .detail-header { flex-direction: column; align-items: flex-start; }
+        .status-bar { flex-direction: column; align-items: flex-start; }
+        .info-table .label-cell { width: auto; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="detail-wrapper">
+    <div class="container">
+        <!-- Header -->
+        <div class="detail-header">
+            <h2><i class="fas fa-user-circle me-2" style="color: #667eea;"></i> {% trans "تفاصيل طلب:" %} <span>{{ registration.full_name }}</span></h2>
+            <a href="{% url 'registration_list' %}" class="btn-back">
+                <i class="fas fa-arrow-right me-1"></i> {% trans "العودة للقائمة" %}
+            </a>
+        </div>
+
+        <!-- Date Info -->
+        <div class="date-info mb-3">
+            <i class="fas fa-calendar-alt"></i>
+            <span>{% trans "تاريخ التسجيل:" %}</span>
+            <strong>{{ registration.application_date|date:"Y/m/d - H:i" }}</strong>
+        </div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <span class="status-label">{% trans "حالة الطلب:" %}</span>
+                {% if registration.status == 'P' %}<span class="badge-lg badge-pending-lg">{% trans "قيد الانتظار" %}</span>{% endif %}
+                {% if registration.status == 'A' %}<span class="badge-lg badge-approved-lg">{% trans "موافق عليه" %}</span>{% endif %}
+                {% if registration.status == 'R' %}<span class="badge-lg badge-rejected-lg">{% trans "مرفوض" %}</span>{% endif %}
+                {% if registration.status == 'W' %}<span class="badge-lg badge-withdrawn-lg">{% trans "متراجع" %}</span>{% endif %}
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <button type="button" class="action-btn action-btn-approve status-btn" data-status="A" data-id="{{ registration.pk }}">
+                    <i class="fas fa-check me-1"></i> {% trans "قبول" %}
+                </button>
+                <button type="button" class="action-btn action-btn-reject status-btn" data-status="R" data-id="{{ registration.pk }}">
+                    <i class="fas fa-times me-1"></i> {% trans "رفض" %}
+                </button>
+                <button type="button" class="action-btn action-btn-pending status-btn" data-status="P" data-id="{{ registration.pk }}">
+                    <i class="fas fa-clock me-1"></i> {% trans "انتظار" %}
+                </button>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <!-- Personal Info -->
+            <div class="col-lg-6">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <i class="fas fa-id-card"></i>
+                        <h5>{% trans "معلومات شخصية" %}</h5>
+                    </div>
+                    <div class="info-card-body">
+                        <table class="info-table">
+                            <tr><td class="label-cell">{% trans "رقم الهوية" %}</td><td class="value-cell">{{ registration.id_number }}</td></tr>
+                            <tr><td class="label-cell">{% trans "الجنسية" %}</td><td class="value-cell">{{ registration.nationality }}</td></tr>
+                            <tr><td class="label-cell">{% trans "العمر" %}</td><td class="value-cell">{{ registration.age }} {% trans "سنة" %}</td></tr>
+                            <tr><td class="label-cell">{% trans "الجنس" %}</td><td class="value-cell">{{ registration.get_gender_display }}</td></tr>
+                            <tr><td class="label-cell">{% trans "الجوال" %}</td><td class="value-cell"><a href="tel:{{ registration.phone }}">{{ registration.phone }}</a></td></tr>
+                            <tr><td class="label-cell">{% trans "البريد الإلكتروني" %}</td><td class="value-cell"><a href="mailto:{{ registration.email }}">{{ registration.email }}</a></td></tr>
+                            <tr><td class="label-cell">{% trans "منطقة الإقامة" %}</td><td class="value-cell">{{ registration.get_residence_region_display }}</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sports Info -->
+            <div class="col-lg-6">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <i class="fas fa-flag-checkered"></i>
+                        <h5>{% trans "معلومات رياضية وفنية" %}</h5>
+                    </div>
+                    <div class="info-card-body">
+                        <table class="info-table">
+                            <tr>
+                                <td class="label-cell">{% trans "الفئة" %}</td>
+                                <td class="value-cell"><strong style="color: #667eea;">{{ registration.get_category_display }}</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">{% trans "رخصة القيادة" %}</td>
+                                <td class="value-cell">
+                                    {% if registration.has_driving_license %}<span class="badge-bool badge-yes"><i class="fas fa-check me-1"></i> {% trans "نعم" %}</span>
+                                    {% else %}<span class="badge-bool badge-no"><i class="fas fa-times me-1"></i> {% trans "لا" %}</span>{% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">{% trans "الرخصة الرياضية" %}</td>
+                                <td class="value-cell">
+                                    {% if registration.has_sports_license %}<span class="badge-bool badge-yes"><i class="fas fa-check me-1"></i> {% trans "نعم" %} ({{ registration.sports_license_number }})</span>
+                                    {% else %}<span class="badge-bool badge-no"><i class="fas fa-times me-1"></i> {% trans "لا" %}</span>{% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="label-cell">{% trans "خبرة سابقة" %}</td>
+                                <td class="value-cell">
+                                    {% if registration.has_previous_experience %}<span class="badge-bool badge-yes"><i class="fas fa-check me-1"></i> {% trans "نعم" %}</span>
+                                    {% else %}<span class="badge-bool badge-no"><i class="fas fa-times me-1"></i> {% trans "لا" %}</span>{% endif %}
+                                </td>
+                            </tr>
+                            {% if registration.has_previous_experience %}
+                            <tr><td class="label-cell">{% trans "عدد السباقات" %}</td><td class="value-cell">{{ registration.number_of_races }}</td></tr>
+                            <tr><td class="label-cell">{% trans "سنوات الخبرة" %}</td><td class="value-cell">{{ registration.get_years_of_experience_display }}</td></tr>
+                            <tr><td class="label-cell">{% trans "أنواع السباقات" %}</td><td class="value-cell">{{ registration.race_types|join:", " }}</td></tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assessment -->
+        <div class="row g-4 mb-4">
+            <div class="col-12">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <i class="fas fa-clipboard-check"></i>
+                        <h5>{% trans "التقييم والإجابات" %}</h5>
+                    </div>
+                    <div class="info-card-body">
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-4 text-center">
+                                <p class="meta-label">{% trans "تقييم القيادة الصحراوية" %}</p>
+                                <div class="rating-big">{{ registration.desert_driving_rating }} <small>/ 5</small></div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <p class="meta-label">{% trans "الالتزام بـ 5 أيام" %}</p>
+                                {% if registration.committed_to_5_days %}
+                                    <span class="badge-bool badge-yes"><i class="fas fa-check me-1"></i> {% trans "ملتزم تماماً" %}</span>
+                                {% else %}
+                                    <span class="badge-bool badge-no"><i class="fas fa-times me-1"></i> {% trans "غير ملتزم" %}</span>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <p class="meta-label">{% trans "القدرة على السفر" %}</p>
+                                {% if registration.can_travel %}
+                                    <span class="badge-bool badge-yes"><i class="fas fa-check me-1"></i> {% trans "نعم" %}</span>
+                                {% else %}
+                                    <span class="badge-bool badge-no"><i class="fas fa-times me-1"></i> {% trans "لا" %}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <p class="meta-label">{% trans "الهدف من البرنامج" %}</p>
+                            <div class="text-block">{{ registration.program_goal|linebreaks }}</div>
+                        </div>
+
+                        <div>
+                            <p class="meta-label">{% trans "الحالات الصحية" %}</p>
+                            <div class="text-block">
+                                {% if registration.health_conditions %}
+                                    {{ registration.health_conditions|linebreaks }}
+                                {% else %}
+                                    <span style="color: #b2bec3;">{% trans "لا يوجد" %}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attachments -->
+        {% if registration.profile_photo or registration.experience_docs %}
+        <div class="row g-4">
+            <div class="col-12">
+                <div class="info-card">
+                    <div class="info-card-header">
+                        <i class="fas fa-paperclip"></i>
+                        <h5>{% trans "المرفقات" %}</h5>
+                    </div>
+                    <div class="info-card-body">
+                        <div class="row g-4">
+                            {% if registration.profile_photo %}
+                            <div class="col-md-3">
+                                <p class="meta-label text-center">{% trans "الصورة الشخصية" %}</p>
+                                <img src="{{ registration.profile_photo.url }}" class="img-fluid rounded" alt="{% trans 'صورة شخصية' %}" style="border: 2px solid #e8ecf1;">
+                            </div>
+                            {% endif %}
+                            {% if registration.experience_docs %}
+                            <div class="col-md-6 d-flex align-items-center">
+                                <div>
+                                    <p class="meta-label">{% trans "مستندات الخبرة" %}</p>
+                                    <a href="{{ registration.experience_docs.url }}" target="_blank" class="btn-back">
+                                        <i class="fas fa-file-download me-2"></i> {% trans "تحميل المستند" %}
+                                    </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusBtns = document.querySelectorAll('.status-btn');
+        statusBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const status = this.getAttribute('data-status');
+                const id = this.getAttribute('data-id');
+
+                fetch(`/api/registrations/${id}/status/`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({status: status})
+                })
+                .then(response => {
+                    if(response.ok) {
+                        window.location.reload();
+                    } else {
+                        alert('حدث خطأ أثناء تحديث الحالة.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+</script>
+{% endblock %}

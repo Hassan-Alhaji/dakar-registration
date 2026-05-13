@@ -1,0 +1,480 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags i18n %}
+
+{% block title %}{% trans "تسجيل مشارك | برنامج الجيل القادم" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Registration specific styles */
+    .reg-header {
+        position: relative;
+        padding: 4rem 0;
+        margin-bottom: 3rem;
+        background: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%230B0C10"/><path d="M0 100 L100 0 L100 10 L10 100 Z" fill="%2300FF41" opacity="0.05"/></svg>');
+        border-bottom: 2px solid var(--neon-green);
+    }
+    
+    .form-section-title {
+        color: var(--neon-green);
+        font-weight: 800;
+        font-style: italic;
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        border-inline-start: 5px solid var(--neon-green);
+        padding-inline-start: 15px;
+    }
+
+    .crispy-form-wrapper label {
+        font-weight: 800;
+        color: var(--white);
+        margin-bottom: 0.8rem;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        letter-spacing: 1px;
+    }
+
+    /* Checkbox & Radio customization */
+    .form-check-input {
+        background-color: var(--carbon-black);
+        border-color: #555;
+    }
+    
+    .form-check-input:checked {
+        background-color: var(--neon-green);
+        border-color: var(--neon-green);
+    }
+    
+    .asteriskField {
+        color: var(--samf-red);
+        margin-right: 4px;
+    }
+
+    .help-block {
+        font-size: 0.8rem;
+        color: #888;
+        margin-top: 5px;
+    }
+
+    /* Rally Switches */
+    .form-switch .form-check-input {
+        width: 4rem;
+        height: 2rem;
+        background-color: #333;
+        border: 2px solid #555;
+        border-radius: 20px;
+        transition: all 0.3s;
+        box-shadow: inset 0 2px 5px rgba(0,0,0,0.8);
+        cursor: pointer;
+    }
+    .form-switch .form-check-input:checked {
+        background-color: var(--neon-green);
+        border-color: var(--neon-green);
+        box-shadow: 0 0 15px var(--neon-green);
+    }
+    .form-switch .form-check-input::after {
+        background-color: #fff;
+        border-radius: 50%;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+
+    /* Temp Gauge */
+    .temp-gauge-container {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+    }
+    .temp-segment {
+        flex: 1;
+        height: 40px;
+        background: #222;
+        border: 2px solid #444;
+        cursor: pointer;
+        transition: all 0.3s;
+        transform: skewX(-15deg);
+        position: relative;
+    }
+    .temp-segment::after {
+        content: attr(data-val);
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%) skewX(15deg);
+        color: #fff;
+        font-weight: 800;
+        opacity: 0.5;
+    }
+    .temp-segment:hover { opacity: 0.8; }
+    .temp-segment.active-1 { background: #00f3ff; border-color: #00f3ff; box-shadow: 0 0 10px #00f3ff; }
+    .temp-segment.active-1::after { opacity: 1; color: #000; }
+    .temp-segment.active-2 { background: #00ff41; border-color: #00ff41; box-shadow: 0 0 10px #00ff41; }
+    .temp-segment.active-2::after { opacity: 1; color: #000; }
+    .temp-segment.active-3 { background: #ffe600; border-color: #ffe600; box-shadow: 0 0 10px #ffe600; }
+    .temp-segment.active-3::after { opacity: 1; color: #000; }
+    .temp-segment.active-4 { background: #ff7b00; border-color: #ff7b00; box-shadow: 0 0 10px #ff7b00; }
+    .temp-segment.active-4::after { opacity: 1; color: #000; }
+    .temp-segment.active-5 { background: #ff003c; border-color: #ff003c; box-shadow: 0 0 10px #ff003c; }
+    .temp-segment.active-5::after { opacity: 1; color: #fff; }
+
+    /* RPM Bar */
+    #rpm-progress-container {
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        background: rgba(11, 12, 16, 0.95);
+        border-top: 2px solid var(--neon-green);
+        z-index: 1000;
+        padding: 15px 0;
+        transform: translateY(100%);
+        transition: transform 0.5s ease;
+    }
+    #rpm-progress-container.show {
+        transform: translateY(0);
+    }
+    #car-indicator {
+        transition: left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="reg-header text-center gs-reveal">
+    <div class="container">
+        <h1 class="title-massive text-white mb-3">{% trans "لوحة" %} <span class="text-neon">{% trans "التسجيل" %}</span></h1>
+        <p class="lead text-muted max-w-75 mx-auto">
+            {% trans "هذه هي نقطة الانطلاق. تأكد من إدخال جميع بياناتك بدقة لتزيد من فرص قبولك في المعسكر التجريبي بمدينة بيشة." %}
+            {% trans "الحقول المميزة بـ (*) إلزامية." %}
+        </p>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="brutalist-card gs-reveal">
+                <form method="post" enctype="multipart/form-data" id="registrationForm" class="crispy-form-wrapper needs-validation" novalidate>
+                    {% csrf_token %}
+                    <!-- Honeypot: invisible to humans, bots fill it -->
+                    <div style="position:absolute;left:-9999px;" aria-hidden="true">
+                        <input type="text" name="website_url" tabindex="-1" autocomplete="off">
+                    </div>
+                    
+                    <!-- القسم الأول -->
+                    <h3 class="form-section-title">{% trans "01 / هويتك الشخصية" %}</h3>
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">{{ form.full_name|as_crispy_field }}</div>
+                        <div class="col-md-3">{{ form.age|as_crispy_field }}</div>
+                        <div class="col-md-3">{{ form.gender|as_crispy_field }}</div>
+                        <div class="col-md-6">{{ form.id_number|as_crispy_field }}</div>
+                        <div class="col-md-6">{{ form.nationality|as_crispy_field }}</div>
+                        <div class="col-md-6">{{ form.phone|as_crispy_field }}</div>
+                        <div class="col-md-6">{{ form.email|as_crispy_field }}</div>
+                    </div>
+
+                    <!-- القسم الثاني -->
+                    <h3 class="form-section-title mt-5">{% trans "02 / التراخيص والخبرة الفنية" %}</h3>
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-6">{{ form.category|as_crispy_field }}</div>
+                        <div class="col-md-3 mt-4 pt-2">
+                            <div class="form-check form-switch fs-5">
+                                {{ form.has_driving_license|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-md-3 mt-4 pt-2">
+                            <div class="form-check form-switch fs-5">
+                                {{ form.has_sports_license|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-md-12" id="sports_license_div">{{ form.sports_license_number|as_crispy_field }}</div>
+                        
+                        <div class="col-12 mt-4 pb-3 border-bottom border-secondary">
+                            <div class="form-check form-switch fs-5 text-neon">
+                                {{ form.has_previous_experience|as_crispy_field }}
+                            </div>
+                        </div>
+                        
+                        <div id="experience_section" class="col-12 row g-4 mt-2 d-none">
+                            <div class="col-md-6">{{ form.number_of_races|as_crispy_field }}</div>
+                            <div class="col-md-6">{{ form.years_of_experience|as_crispy_field }}</div>
+                            <div class="col-12 bg-carbon-black p-4 border border-secondary">
+                                <label class="mb-3 text-neon">{% trans "حدد أنواع السباقات التي شاركت بها:" %}</label>
+                                {{ form.race_types|as_crispy_field }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- القسم الثالث -->
+                    <h3 class="form-section-title mt-5">{% trans "03 / التقييم البدني والمهاري" %}</h3>
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-12">
+                            <label class="mb-2 text-white">{% trans "قيم قدراتك في القيادة على الكثبان الرملية (1-5)" %}</label>
+                            {{ form.desert_driving_rating|as_crispy_field }}
+                        </div>
+                        <div class="col-12">
+                            {{ form.program_goal|as_crispy_field }}
+                            <div class="form-text text-light mt-2">{% trans "اكتب بوضوح دافعك الرئيسي. نبحث عن الشغف الحقيقي، لا الكلمات المنمقة." %}</div>
+                        </div>
+                        <div class="col-12">
+                            {{ form.health_conditions|as_crispy_field }}
+                            <div class="form-text text-light mt-2">{% trans "الرالي يتطلب مجهوداً عالياً. الرجاء الإفصاح عن أي ظروف طبية للحرص على سلامتك." %}</div>
+                        </div>
+                    </div>
+
+                    <!-- القسم الرابع -->
+                    <h3 class="form-section-title mt-5">{% trans "04 / المرفقات والالتزام" %}</h3>
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-12">{{ form.residence_region|as_crispy_field }}</div>
+                        
+                        <div class="col-md-6 mt-4">
+                            <div class="form-check fs-5 text-white">
+                                {{ form.can_travel|as_crispy_field }}
+                            </div>
+                        </div>
+                        <div class="col-md-6 mt-4">
+                            <div class="form-check fs-5 text-white">
+                                {{ form.committed_to_5_days|as_crispy_field }}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mt-5 p-4 border border-secondary" style="background: rgba(255,255,255,0.02);">
+                            <label class="text-neon mb-2 d-block"><i class="fas fa-camera me-2"></i> {% trans "الصورة الشخصية" %}</label>
+                            {{ form.profile_photo }}
+                        </div>
+                        <div class="col-md-6 mt-5 p-4 border border-secondary" style="background: rgba(255,255,255,0.02);">
+                            <label class="text-neon mb-2 d-block"><i class="fas fa-file-pdf me-2"></i> {% trans "السيرة الذاتية أو سجل الإنجازات (اختياري)" %}</label>
+                            {{ form.experience_docs }}
+                        </div>
+                    </div>
+
+                    {{ form.application_date }}
+                    {{ form.updated_date }}
+
+                    
+                    <!-- CAPTCHA -->
+                    <div class="mt-5 pt-4 border-top border-secondary gs-reveal pb-3">
+                        <label class="text-white fw-bold text-uppercase mb-3 d-block">
+                            <i class="fas fa-shield-alt text-neon me-2"></i> {% trans "تحقق أنك لست روبوت" %}
+                        </label>
+                        <div class="d-flex align-items-center gap-3 flex-wrap">
+                            <div class="d-flex align-items-center gap-2 px-4 py-3" style="background: var(--carbon-black); border: 2px solid #444; min-width: 200px;">
+                                <span id="captcha-num1" class="text-neon fw-bold fs-3" style="font-family: monospace;"></span>
+                                <span id="captcha-op" class="text-white fw-bold fs-3">+</span>
+                                <span id="captcha-num2" class="text-neon fw-bold fs-3" style="font-family: monospace;"></span>
+                                <span class="text-white fw-bold fs-3">=</span>
+                                <span class="text-muted fs-5">?</span>
+                            </div>
+                            <input type="number" id="captcha-answer" class="form-control" style="max-width: 120px; font-size: 1.4rem; text-align: center;" placeholder="?" required>
+                            <button type="button" id="captcha-refresh" class="btn btn-outline-secondary" title="{% trans 'سؤال جديد' %}">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                        <div id="captcha-error" class="text-danger mt-2 d-none fw-bold">
+                            <i class="fas fa-times-circle me-1"></i> {% trans "الإجابة غير صحيحة، حاول مرة أخرى." %}
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="text-start mt-4 gs-reveal pb-5 mb-5">
+                        <button type="submit" id="submitBtn" class="btn btn-neon btn-lg w-100 py-3">
+                            <i class="fas fa-bolt me-2"></i> {% trans "إرسال طلب التسجيل" %}
+                        </button>
+                    </div>
+                </form>
+
+                <!-- RPM Progress Bar -->
+                <div id="rpm-progress-container">
+                    <div class="container d-flex align-items-center position-relative">
+                        <i class="fas fa-flag-checkered fs-4 text-white me-3"></i>
+                        <div class="progress w-100" style="height: 25px; background: #222; border-radius: 12px; overflow: visible; position: relative;">
+                            <div id="rpm-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%; border-radius: 12px; transition: width 0.4s ease, background-color 0.4s ease;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                            <i class="fas fa-car-side fs-3 position-absolute" id="car-indicator" style="color: var(--white); top: -20px; left: 0%; filter: drop-shadow(0 0 5px var(--white));"></i>
+                        </div>
+                        <span id="rpm-text" class="ms-3 fw-bold text-neon" style="min-width: 50px;">0%</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const hasExpCheckbox = document.getElementById('id_has_previous_experience');
+        const expSection = document.getElementById('experience_section');
+        const hasSportsLicenseCheckbox = document.getElementById('id_has_sports_license');
+        const sportsLicenseDiv = document.getElementById('sports_license_div');
+
+        function toggleExpSection() {
+            if (hasExpCheckbox && hasExpCheckbox.checked) {
+                expSection.classList.remove('d-none');
+                gsap.from(expSection, {opacity: 0, y: -20, duration: 0.5});
+            } else if(expSection) {
+                expSection.classList.add('d-none');
+            }
+        }
+
+        function toggleSportsLicense() {
+            if (hasSportsLicenseCheckbox && hasSportsLicenseCheckbox.checked) {
+                sportsLicenseDiv.classList.remove('d-none');
+                gsap.from(sportsLicenseDiv, {opacity: 0, height: 0, duration: 0.3});
+            } else if(sportsLicenseDiv) {
+                sportsLicenseDiv.classList.add('d-none');
+            }
+        }
+
+        if(hasExpCheckbox) hasExpCheckbox.addEventListener('change', toggleExpSection);
+        if(hasSportsLicenseCheckbox) hasSportsLicenseCheckbox.addEventListener('change', toggleSportsLicense);
+        
+        // Initial state
+        toggleExpSection();
+        toggleSportsLicense();
+
+        // === Math CAPTCHA ===
+        let captchaAnswer = 0;
+        function generateCaptcha() {
+            const ops = ['+', '×'];
+            const op = ops[Math.floor(Math.random() * ops.length)];
+            let n1, n2;
+            if (op === '×') {
+                n1 = Math.floor(Math.random() * 9) + 2; // 2-10
+                n2 = Math.floor(Math.random() * 9) + 2;
+                captchaAnswer = n1 * n2;
+            } else {
+                n1 = Math.floor(Math.random() * 50) + 10; // 10-59
+                n2 = Math.floor(Math.random() * 40) + 5;  // 5-44
+                captchaAnswer = n1 + n2;
+            }
+            document.getElementById('captcha-num1').textContent = n1;
+            document.getElementById('captcha-op').textContent = op;
+            document.getElementById('captcha-num2').textContent = n2;
+            document.getElementById('captcha-answer').value = '';
+            document.getElementById('captcha-error').classList.add('d-none');
+        }
+        generateCaptcha();
+        document.getElementById('captcha-refresh').addEventListener('click', generateCaptcha);
+
+        // Block form submit if CAPTCHA is wrong
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            const userAnswer = parseInt(document.getElementById('captcha-answer').value);
+            if (userAnswer !== captchaAnswer) {
+                e.preventDefault();
+                document.getElementById('captcha-error').classList.remove('d-none');
+                document.getElementById('captcha-answer').focus();
+                gsap.fromTo('#captcha-error', {x: -10}, {x: 0, duration: 0.3, ease: 'elastic.out(1, 0.3)'});
+                generateCaptcha();
+                return false;
+            }
+        });
+        
+        
+        // Temp Gauge Logic
+        const ratingInput = document.getElementById('id_desert_driving_rating');
+        if (ratingInput) {
+            ratingInput.style.display = 'none';
+            const gaugeHTML = `
+                <div class="temp-gauge-container">
+                    <div class="temp-segment" data-val="1"></div>
+                    <div class="temp-segment" data-val="2"></div>
+                    <div class="temp-segment" data-val="3"></div>
+                    <div class="temp-segment" data-val="4"></div>
+                    <div class="temp-segment" data-val="5"></div>
+                </div>
+            `;
+            ratingInput.insertAdjacentHTML('afterend', gaugeHTML);
+            
+            const segments = document.querySelectorAll('.temp-segment');
+            segments.forEach(seg => {
+                seg.addEventListener('click', function() {
+                    const val = parseInt(this.getAttribute('data-val'));
+                    ratingInput.value = val;
+                    // Update visuals
+                    segments.forEach(s => {
+                        const sVal = parseInt(s.getAttribute('data-val'));
+                        s.className = 'temp-segment'; // reset
+                        if (sVal <= val) {
+                            s.classList.add('active-' + sVal);
+                        }
+                    });
+                });
+            });
+            // Init if value exists
+            if(ratingInput.value) {
+                document.querySelector(`.temp-segment[data-val="${ratingInput.value}"]`).click();
+            }
+        }
+
+        // RPM Progress Bar Logic
+        const form = document.getElementById('registrationForm');
+        const requiredInputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+        const rpmContainer = document.getElementById('rpm-progress-container');
+        const rpmBar = document.getElementById('rpm-bar');
+        const rpmText = document.getElementById('rpm-text');
+        const carIndicator = document.getElementById('car-indicator');
+
+        function updateProgress() {
+            let filled = 0;
+            requiredInputs.forEach(input => {
+                if (input.type === 'checkbox' || input.type === 'radio') {
+                    if (input.checked) filled++;
+                } else if (input.value.trim() !== '') {
+                    filled++;
+                }
+            });
+            
+            const total = requiredInputs.length || 1; // avoid div by 0
+            let percentage = Math.round((filled / total) * 100);
+            
+            if (percentage > 0) {
+                rpmContainer.classList.add('show');
+            }
+            
+            rpmBar.style.width = percentage + '%';
+            carIndicator.style.left = `calc(${percentage}% - 15px)`;
+            rpmText.innerText = percentage + '%';
+            
+            // Color mapping based on RPM concept
+            rpmBar.className = 'progress-bar progress-bar-striped progress-bar-animated';
+            if (percentage < 33) {
+                rpmBar.classList.add('bg-success');
+                carIndicator.style.color = '#00ff41';
+            } else if (percentage < 66) {
+                rpmBar.classList.add('bg-warning');
+                carIndicator.style.color = '#ffe600';
+            } else if (percentage < 100) {
+                rpmBar.classList.add('bg-danger');
+                carIndicator.style.color = '#ff003c';
+            } else {
+                rpmBar.style.backgroundColor = '#00f3ff';
+                rpmBar.classList.remove('bg-success', 'bg-warning', 'bg-danger');
+                carIndicator.style.color = '#00f3ff';
+            }
+        }
+
+        // Add event listeners to all inputs
+        form.querySelectorAll('input, select, textarea').forEach(input => {
+            input.addEventListener('input', updateProgress);
+            input.addEventListener('change', updateProgress);
+        });
+
+        // Launch animation on submit
+        form.addEventListener('submit', function(e) {
+            if (form.checkValidity()) {
+                // Animate car zooming off
+                gsap.to(carIndicator, {left: '120%', duration: 1.5, ease: "power2.in"});
+                gsap.to(rpmContainer, {opacity: 0, duration: 1, delay: 0.5});
+            }
+        });
+        
+        updateProgress(); // Initial check
+
+        // Form reveals
+        gsap.utils.toArray('.gs-reveal').forEach(function(elem) {
+            gsap.fromTo(elem, 
+                { y: 30, opacity: 0 }, 
+                { y: 0, opacity: 1, duration: 0.8, ease: "power2.out", scrollTrigger: { trigger: elem, start: "top 90%" } }
+            );
+        });
+    });
+</script>
+{% endblock %}

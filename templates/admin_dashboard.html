@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "لوحة التحكم" %} | SAMF NEXGEN{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Override dark theme for dashboard */
+    .dashboard-wrapper {
+        background: #f5f6fa;
+        min-height: 100vh;
+        padding: 2rem 0;
+        margin: -80px -15px 0;
+        padding-top: calc(80px + 2rem);
+    }
+
+    .dash-card {
+        background: #fff;
+        border-radius: 12px;
+        padding: 1.8rem;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        border: 1px solid #e8ecf1;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .dash-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .stat-card {
+        border-radius: 12px;
+        padding: 1.5rem;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+    }
+    .stat-card::after {
+        content: '';
+        position: absolute;
+        top: -20px; right: -20px;
+        width: 80px; height: 80px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.15);
+    }
+    .stat-card h3 { font-size: 2.2rem; margin: 0; color: #fff; }
+    .stat-card p { margin: 0; opacity: 0.9; font-size: 0.95rem; color: #fff; }
+
+    .stat-total { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .stat-approved { background: linear-gradient(135deg, #11998e, #38ef7d); }
+    .stat-pending { background: linear-gradient(135deg, #f7971e, #ffd200); }
+    .stat-rejected { background: linear-gradient(135deg, #eb3349, #f45c43); }
+
+    .dash-title {
+        color: #2d3436;
+        font-size: 1.6rem;
+        font-weight: 800;
+        font-style: normal;
+        text-transform: none;
+    }
+
+    .dash-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    .dash-table thead th {
+        background: #f8f9fc;
+        color: #636e72;
+        font-weight: 700;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 12px 16px;
+        border-bottom: 2px solid #e8ecf1;
+    }
+    .dash-table tbody td {
+        padding: 14px 16px;
+        color: #2d3436;
+        font-size: 0.95rem;
+        border-bottom: 1px solid #f0f2f5;
+        vertical-align: middle;
+    }
+    .dash-table tbody tr:hover {
+        background: #f8f9fc;
+    }
+    .dash-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .badge-status {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 700;
+    }
+    .badge-pending { background: #fff3cd; color: #856404; }
+    .badge-approved { background: #d4edda; color: #155724; }
+    .badge-rejected { background: #f8d7da; color: #721c24; }
+    .badge-withdrawn { background: #e2e3e5; color: #383d41; }
+
+    .btn-detail {
+        background: #667eea;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 5px 14px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+    .btn-detail:hover {
+        background: #5a6fd6;
+        color: #fff;
+        transform: scale(1.05);
+    }
+
+    .list-stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f2f5;
+        color: #2d3436;
+        font-weight: 600;
+    }
+    .list-stat-item:last-child { border-bottom: none; }
+    .list-stat-badge {
+        background: #667eea;
+        color: #fff;
+        padding: 3px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .section-label {
+        color: #636e72;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1rem;
+    }
+
+    .btn-view-all {
+        background: transparent;
+        color: #667eea;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        padding: 8px 20px;
+        font-weight: 700;
+        transition: all 0.2s;
+    }
+    .btn-view-all:hover {
+        background: #667eea;
+        color: #fff;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #b2bec3;
+    }
+    .empty-state i { font-size: 3rem; margin-bottom: 1rem; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <div class="container">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+            <div>
+                <h2 class="dash-title mb-1"><i class="fas fa-tachometer-alt me-2" style="color: #667eea;"></i> {% trans "لوحة تحكم الإدارة" %}</h2>
+                <p class="text-muted mb-0" style="font-style: normal;">SAMF NEXGEN 2027</p>
+            </div>
+            <div class="d-flex gap-2 flex-wrap">
+                <a href="{% url 'export_excel' %}" class="btn-view-all" style="background: #11998e; color: #fff; border-color: #11998e;">
+                    <i class="fas fa-file-excel me-1"></i> {% trans "تحميل Excel" %}
+                </a>
+                <a href="{% url 'registration_list' %}" class="btn-view-all">
+                    <i class="fas fa-list me-1"></i> {% trans "عرض كل التسجيلات" %}
+                </a>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3 col-6">
+                <div class="stat-card stat-total">
+                    <p class="section-label" style="color: rgba(255,255,255,0.8); margin-bottom: 8px;">{% trans "إجمالي التسجيلات" %}</p>
+                    <h3>{{ stats.total_registrations }}</h3>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card stat-approved">
+                    <p class="section-label" style="color: rgba(255,255,255,0.8); margin-bottom: 8px;">{% trans "الموافق عليها" %}</p>
+                    <h3>{{ stats.approved }}</h3>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card stat-pending">
+                    <p class="section-label" style="color: rgba(255,255,255,0.8); margin-bottom: 8px;">{% trans "قيد الانتظار" %}</p>
+                    <h3>{{ stats.pending }}</h3>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-card stat-rejected">
+                    <p class="section-label" style="color: rgba(255,255,255,0.8); margin-bottom: 8px;">{% trans "المرفوضة" %}</p>
+                    <h3>{{ stats.rejected }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <!-- Recent Registrations Table -->
+            <div class="col-lg-8">
+                <div class="dash-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="dash-title mb-0" style="font-size: 1.1rem;"><i class="fas fa-clock me-2" style="color: #667eea;"></i> {% trans "أحدث التسجيلات" %}</h5>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="dash-table">
+                            <thead>
+                                <tr>
+                                    <th>{% trans "الاسم" %}</th>
+                                    <th>{% trans "الفئة" %}</th>
+                                    <th>{% trans "المنطقة" %}</th>
+                                    <th>{% trans "التاريخ" %}</th>
+                                    <th>{% trans "الحالة" %}</th>
+                                    <th>{% trans "الإجراء" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for reg in recent_registrations %}
+                                <tr>
+                                    <td><strong>{{ reg.full_name }}</strong></td>
+                                    <td>{{ reg.get_category_display }}</td>
+                                    <td>{{ reg.get_residence_region_display }}</td>
+                                    <td>{{ reg.application_date|date:"Y/m/d" }}</td>
+                                    <td>
+                                        {% if reg.status == 'P' %}<span class="badge-status badge-pending">{% trans "قيد الانتظار" %}</span>{% endif %}
+                                        {% if reg.status == 'A' %}<span class="badge-status badge-approved">{% trans "موافق عليه" %}</span>{% endif %}
+                                        {% if reg.status == 'R' %}<span class="badge-status badge-rejected">{% trans "مرفوض" %}</span>{% endif %}
+                                        {% if reg.status == 'W' %}<span class="badge-status badge-withdrawn">{% trans "متراجع" %}</span>{% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'registration_detail' reg.pk %}" class="btn-detail">{% trans "تفاصيل" %}</a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="empty-state">
+                                            <i class="fas fa-inbox d-block"></i>
+                                            <p>{% trans "لا توجد تسجيلات بعد" %}</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Stats -->
+            <div class="col-lg-4">
+                <div class="dash-card mb-4">
+                    <p class="section-label"><i class="fas fa-users me-1"></i> {% trans "توزيع الفئات" %}</p>
+                    <div class="list-stat-item">
+                        <span>{% trans "المتسابقون" %}</span>
+                        <span class="list-stat-badge">{{ stats.drivers }}</span>
+                    </div>
+                    <div class="list-stat-item">
+                        <span>{% trans "الملاحون" %}</span>
+                        <span class="list-stat-badge" style="background: #11998e;">{{ stats.navigators }}</span>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <p class="section-label"><i class="fas fa-venus-mars me-1"></i> {% trans "الذكور / الإناث" %}</p>
+                    <div class="list-stat-item">
+                        <span>{% trans "ذكور" %}</span>
+                        <span class="list-stat-badge" style="background: #0984e3;">{{ stats.male }}</span>
+                    </div>
+                    <div class="list-stat-item">
+                        <span>{% trans "إناث" %}</span>
+                        <span class="list-stat-badge" style="background: #e84393;">{{ stats.female }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

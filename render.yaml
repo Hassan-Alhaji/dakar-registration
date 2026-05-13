@@ -1,0 +1,23 @@
+databases:
+  - name: dakar-db
+    databaseName: dakar_db
+    user: dakar_user
+    plan: free
+
+services:
+  - type: web
+    name: dakar-registration
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn config.wsgi:application"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dakar-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: WEB_CONCURRENCY
+        value: "4"
