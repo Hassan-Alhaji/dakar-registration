@@ -49,12 +49,13 @@
         top: -20px;
         left: -10px;
         font-family: 'Alexandria', sans-serif;
-        font-size: clamp(3rem, 15vw, 8rem);
+        font-size: clamp(2rem, 12vw, 8rem);
         font-weight: 900;
         color: transparent;
         -webkit-text-stroke: 2px rgba(255, 255, 255, 0.05);
         z-index: 1;
-        white-space: nowrap;
+        overflow: hidden;
+        max-width: 100%;
     }
 
     .hero-subtitle {
@@ -143,9 +144,40 @@
         filter: drop-shadow(0 0 30px rgba(0,255,65,0.6));
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 575.98px) {
         .hero-container {
             min-height: 60vh !important;
+            padding-top: 2rem !important;
+        }
+        .hero-title-back {
+            top: -5px;
+            display: none;
+        }
+        .hero-subtitle {
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        .img-pop-out {
+            transform: none !important;
+            filter: drop-shadow(0 0 10px rgba(0,255,65,0.3));
+            mix-blend-mode: screen;
+            margin-top: 1.5rem;
+        }
+        .section-title {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+        }
+        .section-title::after {
+            display: none;
+        }
+        .brutalist-card p {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (min-width: 576px) and (max-width: 991.98px) {
+        .hero-container {
+            min-height: 65vh !important;
             padding-top: 3rem !important;
         }
         .hero-title-back {
@@ -154,22 +186,11 @@
         .img-pop-out {
             transform: none !important;
             filter: drop-shadow(0 0 10px rgba(0,255,65,0.3));
-            mix-blend-mode: screen; /* more mobile compatible than lighten */
+            mix-blend-mode: screen;
             margin-top: 2rem;
         }
         .section-title {
-            margin-bottom: 1.5rem;
-        }
-        .py-5 {
-            padding-top: 2rem !important;
-            padding-bottom: 2rem !important;
-        }
-        .my-5 {
-            margin-top: 2rem !important;
-            margin-bottom: 2rem !important;
-        }
-        .p-5 {
-            padding: 2rem !important;
+            margin-bottom: 2rem;
         }
     }
 
@@ -208,8 +229,8 @@
                 <p class="hero-subtitle gs-reveal">
                     {% trans "البرنامج الوطني الأضخم لاستقطاب وتدريب المواهب السعودية الشابة في عالم الراليات والمحركات. طريقك نحو تمثيل المملكة في رالي داكار 2027 يبدأ من معسكر بيشة." %}
                 </p>
-                <div class="mt-5 gs-reveal">
-                    <a href="{% url 'register' %}" class="btn btn-neon me-3">{% trans "سجل الآن" %} <i class="fas fa-arrow-{% if LANGUAGE_BIDI %}left{% else %}right{% endif %} ms-2"></i></a>
+                <div class="mt-4 mt-md-5 gs-reveal d-flex flex-wrap gap-2">
+                    <a href="{% url 'register' %}" class="btn btn-neon">{% trans "سجل الآن" %} <i class="fas fa-arrow-{% if LANGUAGE_BIDI %}left{% else %}right{% endif %} ms-2"></i></a>
                     <a href="#about" class="btn btn-outline-neon">{% trans "اكتشف البرنامج" %}</a>
                 </div>
             </div>
