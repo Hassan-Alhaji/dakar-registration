@@ -552,6 +552,50 @@ msgstr "Females"
 msgid "تحميل Excel"
 msgstr "Download Excel"
 
+msgid "التسجيل مغلق"
+msgstr "Registration Closed"
+
+msgid "مغلق"
+msgstr "CLOSED"
+
+msgid ""
+"عذراً، فترة التسجيل منتهية حالياً. يرجى متابعة قنواتنا الرسمية لأي تحديثات."
+msgstr ""
+"Sorry, the registration period has ended. Please follow our official "
+"channels for any updates."
+
+msgid "التسجيل متاح"
+msgstr "Registration Open"
+
+msgid "رسالة إغلاق التسجيل"
+msgstr "Registration Closed Message"
+
+msgid "إعدادات النظام"
+msgstr "System Settings"
+
+msgid "التحكم بالتسجيل"
+msgstr "Registration Control"
+
+msgid "استقبال طلبات التسجيل مفعل"
+msgstr "Accepting registration applications is enabled"
+
+msgid ""
+"عند إيقاف هذا الخيار، سيتم منع أي شخص من تعبئة نموذج التسجيل وستظهر له رسالة"
+" الإغلاق أدناه."
+msgstr ""
+"When this option is disabled, no one will be able to fill out the "
+"registration form and the closing message below will be shown."
+
+msgid "رسالة الإغلاق المخصصة"
+msgstr "Custom Closing Message"
+
+msgid "اكتب الرسالة التي ترغب بظهورها للزوار عندما يكون التسجيل مغلقاً."
+msgstr ""
+"Write the message you want visitors to see when registration is closed."
+
+msgid "حفظ التغييرات"
+msgstr "Save Changes"
+
 msgid "تفاصيل التسجيل"
 msgstr "Registration Details"
 
@@ -599,6 +643,15 @@ msgstr "Fully Committed"
 
 msgid "غير ملتزم"
 msgstr "Not Committed"
+
+msgid "تمت الموافقة"
+msgstr "Agreed"
+
+msgid "لم يوافق"
+msgstr "Not Agreed"
+
+msgid "موافق على الشروط والأحكام"
+msgstr "Agreed to Terms & Conditions"
 
 msgid "الهدف من البرنامج"
 msgstr "Program Goal"

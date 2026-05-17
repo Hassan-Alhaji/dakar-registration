@@ -188,7 +188,7 @@ class SiteSettings(models.Model):
     
     registration_open = models.BooleanField(default=True, verbose_name=_('التسجيل متاح'))
     closed_message = models.TextField(
-        default=_('عذراً، فترة التسجيل منتهية حالياً. يرجى متابعة قنواتنا الرسمية لأي تحديثات.'),
+        default=_('Sorry, the registration period has ended. Please follow our official channels for any updates.'),
         verbose_name=_('رسالة إغلاق التسجيل')
     )
     

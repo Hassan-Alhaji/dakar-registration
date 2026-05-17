@@ -204,6 +204,22 @@ TRANSLATIONS = {
     'إناث': 'Females',
     'تحميل Excel': 'Download Excel',
 
+    # === Registration Closed Page ===
+    'التسجيل مغلق': 'Registration Closed',
+    'مغلق': 'CLOSED',
+    'عذراً، فترة التسجيل منتهية حالياً. يرجى متابعة قنواتنا الرسمية لأي تحديثات.': 'Sorry, the registration period has ended. Please follow our official channels for any updates.',
+    'التسجيل متاح': 'Registration Open',
+    'رسالة إغلاق التسجيل': 'Registration Closed Message',
+
+    # === Admin Settings Page ===
+    'إعدادات النظام': 'System Settings',
+    'التحكم بالتسجيل': 'Registration Control',
+    'استقبال طلبات التسجيل مفعل': 'Accepting registration applications is enabled',
+    'عند إيقاف هذا الخيار، سيتم منع أي شخص من تعبئة نموذج التسجيل وستظهر له رسالة الإغلاق أدناه.': 'When this option is disabled, no one will be able to fill out the registration form and the closing message below will be shown.',
+    'رسالة الإغلاق المخصصة': 'Custom Closing Message',
+    'اكتب الرسالة التي ترغب بظهورها للزوار عندما يكون التسجيل مغلقاً.': 'Write the message you want visitors to see when registration is closed.',
+    'حفظ التغييرات': 'Save Changes',
+
     # === Detail & List Pages ===
     'تفاصيل التسجيل': 'Registration Details',
     'تفاصيل طلب:': 'Application Details:',
@@ -221,6 +237,9 @@ TRANSLATIONS = {
     'التقييم والإجابات': 'Assessment & Answers',
     'ملتزم تماماً': 'Fully Committed',
     'غير ملتزم': 'Not Committed',
+    'تمت الموافقة': 'Agreed',
+    'لم يوافق': 'Not Agreed',
+    'موافق على الشروط والأحكام': 'Agreed to Terms & Conditions',
     'الهدف من البرنامج': 'Program Goal',
     'لا يوجد': 'None',
     'المرفقات': 'Attachments',

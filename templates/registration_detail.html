@@ -329,6 +329,17 @@
                             </div>
                         </div>
 
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-4 text-center">
+                                <p class="meta-label">{% trans "موافق على الشروط والأحكام" %}</p>
+                                {% if registration.agreed_to_terms %}
+                                    <span class="badge-bool badge-yes"><i class="fas fa-file-contract me-1"></i> {% trans "تمت الموافقة" %}</span>
+                                {% else %}
+                                    <span class="badge-bool badge-no"><i class="fas fa-times me-1"></i> {% trans "لم يوافق" %}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
                         <div class="mb-4">
                             <p class="meta-label">{% trans "الهدف من البرنامج" %}</p>
                             <div class="text-block">{{ registration.program_goal|linebreaks }}</div>
