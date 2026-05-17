@@ -125,6 +125,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# django-ratelimit configuration for reverse proxy (Cloudflare + Nginx)
+RATELIMIT_IP_META_KEY = 'HTTP_CF_CONNECTING_IP'
+
 # Authentication
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
@@ -152,6 +155,7 @@ CORS_ALLOWED_ORIGINS = config(
     default='http://localhost:8000,http://127.0.0.1:8000',
     cast=Csv()
 )
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
 
 # Security Settings for Production
 if not DEBUG:
