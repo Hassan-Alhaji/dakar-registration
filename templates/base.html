@@ -387,6 +387,24 @@
             pointer-events: none;
         }
 
+        /* Cookie Banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(11, 12, 16, 0.98);
+            border-top: 2px solid var(--neon-green);
+            z-index: 1050;
+            padding: 15px 0;
+            transform: translateY(100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.5);
+        }
+        .cookie-banner.show {
+            transform: translateY(0) !important;
+        }
+
         {% block extra_css %}{% endblock %}
     </style>
 </head>
@@ -510,6 +528,19 @@
         </div>
     </footer>
 
+    <!-- Cookie Banner -->
+    <div id="cookie-banner" class="cookie-banner d-none">
+        <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
+            <p class="mb-3 mb-md-0 text-light small pe-md-4 text-center text-md-start">
+                <i class="fas fa-cookie-bite text-neon me-2"></i>
+                {% trans "نحن نستخدم ملفات تعريف الارتباط (الكوكيز) لتحسين تجربتك على موقعنا. باستخدامك للموقع، فإنك توافق على سياسة الخصوصية الخاصة بنا." %}
+            </p>
+            <button id="accept-cookies" class="btn btn-outline-neon btn-sm text-nowrap px-4 py-2 fw-bold">
+                {% trans "موافق" %}
+            </button>
+        </div>
+    </div>
+
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
@@ -539,6 +570,27 @@
         document.querySelectorAll('.hover-neon').forEach(el => {
             el.addEventListener('mouseenter', () => { el.style.color = 'var(--neon-green)'; });
             el.addEventListener('mouseleave', () => { el.style.color = ''; });
+        });
+
+        // Cookie Consent Logic
+        document.addEventListener('DOMContentLoaded', function() {
+            const cookieBanner = document.getElementById('cookie-banner');
+            const acceptBtn = document.getElementById('accept-cookies');
+            
+            if (!localStorage.getItem('cookiesAccepted')) {
+                cookieBanner.classList.remove('d-none');
+                setTimeout(() => {
+                    cookieBanner.classList.add('show');
+                }, 500); // slight delay after page load
+            }
+            
+            acceptBtn.addEventListener('click', function() {
+                localStorage.setItem('cookiesAccepted', 'true');
+                cookieBanner.classList.remove('show');
+                setTimeout(() => {
+                    cookieBanner.classList.add('d-none');
+                }, 500);
+            });
         });
     </script>
     
