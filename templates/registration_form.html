@@ -419,19 +419,7 @@
         generateCaptcha();
         document.getElementById('captcha-refresh').addEventListener('click', generateCaptcha);
 
-        // Block form submit if CAPTCHA is wrong
-        document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            const userAnswer = parseInt(document.getElementById('captcha-answer').value);
-            if (userAnswer !== captchaAnswer) {
-                e.preventDefault();
-                document.getElementById('captcha-error').classList.remove('d-none');
-                document.getElementById('captcha-answer').focus();
-                gsap.fromTo('#captcha-error', {x: -10}, {x: 0, duration: 0.3, ease: 'elastic.out(1, 0.3)'});
-                generateCaptcha();
-                return false;
-            }
-        });
-        
+        // CAPTCHA is validated in the main form submit listener below
         
         // Temp Gauge Logic
         const ratingInput = document.getElementById('id_desert_driving_rating');
