@@ -164,7 +164,12 @@
                         <div class="col-md-3">{{ form.age|as_crispy_field }}</div>
                         <div class="col-md-3">{{ form.gender|as_crispy_field }}</div>
                         <div class="col-md-6">{{ form.id_number|as_crispy_field }}</div>
-                        <div class="col-md-6">{{ form.nationality|as_crispy_field }}</div>
+                        <div class="col-md-6">
+                            {{ form.nationality|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6 d-none" id="other_nationality_div">
+                            {{ form.other_nationality|as_crispy_field }}
+                        </div>
                         <div class="col-md-6">{{ form.phone|as_crispy_field }}</div>
                         <div class="col-md-6">{{ form.email|as_crispy_field }}</div>
                     </div>
@@ -359,6 +364,26 @@
         // Initial state
         toggleExpSection();
         toggleSportsLicense();
+
+        // === Nationality Toggle ===
+        const nationalitySelect = document.getElementById('id_nationality');
+        const otherNationalityDiv = document.getElementById('other_nationality_div');
+        
+        function toggleNationality() {
+            if (nationalitySelect && nationalitySelect.value === 'Other') {
+                otherNationalityDiv.classList.remove('d-none');
+                gsap.from(otherNationalityDiv, {opacity: 0, y: -10, duration: 0.3});
+                document.getElementById('id_other_nationality').required = true;
+            } else if (otherNationalityDiv) {
+                otherNationalityDiv.classList.add('d-none');
+                document.getElementById('id_other_nationality').required = false;
+            }
+        }
+        
+        if (nationalitySelect) {
+            nationalitySelect.addEventListener('change', toggleNationality);
+            toggleNationality(); // initial state
+        }
 
         // === Math CAPTCHA ===
         let captchaAnswer = 0;
