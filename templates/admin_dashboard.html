@@ -184,6 +184,12 @@
                 <a href="{% url 'registration_list' %}" class="btn-view-all">
                     <i class="fas fa-list me-1"></i> {% trans "عرض كل التسجيلات" %}
                 </a>
+                <form action="{% url 'logout' %}" method="post" class="m-0 p-0">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-view-all" style="background: #e74c3c; color: #fff; border-color: #e74c3c;">
+                        <i class="fas fa-sign-out-alt me-1"></i> {% trans "تسجيل الخروج" %}
+                    </button>
+                </form>
             </div>
         </div>
 
