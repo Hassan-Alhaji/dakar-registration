@@ -57,6 +57,7 @@ class Registration(models.Model):
     has_driving_license = models.BooleanField(verbose_name=_('هل لديك رخصة قيادة سارية؟'))
     has_sports_license = models.BooleanField(verbose_name=_('هل لديك رخصة سباق مصدرة من الاتحاد السعودي للسيارات؟'))
     sports_license_number = models.CharField(max_length=50, blank=True, null=True, verbose_name=_('رقم الرخصة الرياضية'))
+    agreed_to_terms = models.BooleanField(default=True, verbose_name=_('موافق على الشروط والأحكام'))
     
     # الخبرة السابقة
     has_previous_experience = models.BooleanField(verbose_name=_('هل لديك خبرة سابقة في مجال رياضة السيارات؟'))
