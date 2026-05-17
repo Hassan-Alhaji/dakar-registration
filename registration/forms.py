@@ -47,6 +47,12 @@ class RegistrationForm(forms.ModelForm):
         label=_('أنواع السباقات السابقة')
     )
     
+    has_driving_license = forms.BooleanField(required=False, label=_('هل لديك رخصة قيادة سارية المفعول؟'))
+    has_sports_license = forms.BooleanField(required=False, label=_('هل لديك رخصة سباق مصدرة من الاتحاد السعودي للسيارات؟'))
+    has_previous_experience = forms.BooleanField(required=False, label=_('هل لديك خبرة سابقة في مجال رياضة السيارات؟'))
+    can_travel = forms.BooleanField(required=False, label=_('هل لديك القدرة على السفر والإقامة في مدينة بيشة لمدة 5 أيام؟'))
+    committed_to_5_days = forms.BooleanField(required=False, label=_('هل أنت ملتزم بحضور كامل أيام المعسكر؟'))
+
     agreed_to_terms = forms.BooleanField(
         required=True,
         label=_('قرأت وأوافق على جميع الشروط والأحكام الخاصة بالبرنامج'),
@@ -61,7 +67,34 @@ class RegistrationForm(forms.ModelForm):
         widgets = {
             'program_goal': forms.Textarea(attrs={'rows': 4}),
             'health_conditions': forms.Textarea(attrs={'rows': 3}),
+            'email': forms.EmailInput(attrs={'type': 'email'}),
+            'phone': forms.TextInput(attrs={'type': 'tel', 'pattern': '[0-9]+', 'minlength': '9'}),
+            'id_number': forms.TextInput(attrs={'type': 'text', 'pattern': '[0-9]+'}),
         }
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        from django.core.validators import validate_email
+        from django.core.exceptions import ValidationError
+        try:
+            validate_email(email)
+        except ValidationError:
+            raise forms.ValidationError(_('يرجى إدخال بريد إلكتروني صحيح'))
+        return email
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if not phone.isdigit():
+            raise forms.ValidationError(_('رقم الجوال يجب أن يحتوي على أرقام فقط'))
+        if len(phone) < 9:
+            raise forms.ValidationError(_('رقم الجوال يجب ألا يقل عن 9 أرقام'))
+        return phone
+
+    def clean_id_number(self):
+        id_number = self.cleaned_data.get('id_number')
+        if not id_number.isdigit():
+            raise forms.ValidationError(_('رقم الهوية يجب أن يحتوي على أرقام فقط'))
+        return id_number
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

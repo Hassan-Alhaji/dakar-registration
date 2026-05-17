@@ -156,6 +156,16 @@
                     <div style="position:absolute;left:-9999px;" aria-hidden="true">
                         <input type="text" name="website_url" tabindex="-1" autocomplete="off">
                     </div>
+
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger bg-dark-gray border-start border-4 border-danger text-white rounded-0">
+                        <ul class="mb-0">
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
                     
                     <!-- القسم الأول -->
                     <h3 class="form-section-title">{% trans "01 / هويتك الشخصية" %}</h3>
