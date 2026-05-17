@@ -13,7 +13,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,testserver', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='dakar-registration.onrender.com,nextgen.samf.gov.sa,localhost,127.0.0.1,testserver', cast=Csv())
 
 # Add Render hostname if it exists
 RENDER_EXTERNAL_HOSTNAME = config('RENDER_EXTERNAL_HOSTNAME', default=None)
