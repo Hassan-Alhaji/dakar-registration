@@ -11,7 +11,7 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    path('admin/', admin.site.urls),
+    path('dakar-secure-portal/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('registration.urls')),
 )
