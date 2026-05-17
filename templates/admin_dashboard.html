@@ -248,7 +248,19 @@
                                         {% if reg.status == 'W' %}<span class="badge-status badge-withdrawn">{% trans "متراجع" %}</span>{% endif %}
                                     </td>
                                     <td>
-                                        <a href="{% url 'registration_detail' reg.pk %}" class="btn-detail">{% trans "تفاصيل" %}</a>
+                                        <div class="d-flex gap-2">
+                                            <a href="{% url 'registration_detail' reg.pk %}" class="btn-detail" title="{% trans 'تفاصيل' %}"><i class="fas fa-eye"></i></a>
+                                            <form action="{% url 'registration_status_update' reg.pk %}" method="post" class="m-0 p-0">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="status" value="A">
+                                                <button type="submit" class="btn-detail" style="background: #00b894;" title="{% trans 'قبول' %}"><i class="fas fa-check"></i></button>
+                                            </form>
+                                            <form action="{% url 'registration_status_update' reg.pk %}" method="post" class="m-0 p-0">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="status" value="R">
+                                                <button type="submit" class="btn-detail" style="background: #d63031;" title="{% trans 'رفض' %}"><i class="fas fa-times"></i></button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 {% empty %}

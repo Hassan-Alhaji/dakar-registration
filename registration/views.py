@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import CreateView, ListView, DetailView, TemplateView
+from django.views.generic import CreateView, ListView, DetailView, TemplateView, View
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.decorators import method_decorator
@@ -101,6 +101,21 @@ class RegistrationDetailView(LoginRequiredMixin, DetailView):
     model = Registration
     template_name = 'registration_detail.html'
     context_object_name = 'registration'
+
+class RegistrationStatusUpdateView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        from django.shortcuts import get_object_or_404, redirect
+        from django.contrib import messages
+        registration = get_object_or_404(Registration, pk=pk)
+        new_status = request.POST.get('status')
+        if new_status in dict(Registration.STATUS_CHOICES):
+            registration.status = new_status
+            registration.save()
+            status_display = dict(Registration.STATUS_CHOICES).get(new_status)
+            messages.success(request, f'تم تحديث حالة {registration.full_name} إلى {status_display}')
+        else:
+            messages.error(request, 'حالة غير صالحة')
+        return redirect('dashboard')
 
 
 class ExportExcelView(LoginRequiredMixin, TemplateView):

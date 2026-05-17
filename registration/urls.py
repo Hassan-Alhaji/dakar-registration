@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     IndexView, RegistrationCreateView, RegistrationSuccessView,
     DashboardView, RegistrationListView, RegistrationDetailView,
-    ExportExcelView, AdminSettingsView,
+    RegistrationStatusUpdateView, ExportExcelView, AdminSettingsView,
     RegistrationViewSet, StatsViewSet
 )
 
@@ -22,6 +22,7 @@ urlpatterns = [
     path('dashboard/settings/', AdminSettingsView.as_view(), name='admin_settings'),
     path('dashboard/registrations/', RegistrationListView.as_view(), name='registration_list'),
     path('dashboard/registrations/<int:pk>/', RegistrationDetailView.as_view(), name='registration_detail'),
+    path('dashboard/registrations/<int:pk>/status/', RegistrationStatusUpdateView.as_view(), name='registration_status_update'),
     path('dashboard/export/', ExportExcelView.as_view(), name='export_excel'),
 
     # API Routes
