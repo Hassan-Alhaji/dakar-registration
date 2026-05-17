@@ -41,6 +41,7 @@
             overflow-x: hidden;
             max-width: 100vw;
             position: relative;
+            height: 100%;
         }
 
         body {
@@ -48,15 +49,17 @@
             background-color: var(--carbon-black);
             color: var(--light-gray);
             scroll-behavior: smooth;
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-rows: 1fr auto;
             min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
         }
 
         main {
-            flex: 1 0 auto;
             display: flex;
             flex-direction: column;
+            width: 100%;
         }
 
         /* Typography */
@@ -533,10 +536,14 @@
         <div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
             <p class="mb-3 mb-md-0 text-light small pe-md-4 text-center text-md-start">
                 <i class="fas fa-cookie-bite text-neon me-2"></i>
-                {% trans "نحن نستخدم ملفات تعريف الارتباط (الكوكيز) لتحسين تجربتك على موقعنا. باستخدامك للموقع، فإنك توافق على سياسة الخصوصية الخاصة بنا." %}
+                {% if LANGUAGE_CODE == 'en' %}
+                    We use cookies to improve your experience. By continuing to use the site, you agree to our privacy policy.
+                {% else %}
+                    نحن نستخدم ملفات تعريف الارتباط (الكوكيز) لتحسين تجربتك على موقعنا. باستخدامك للموقع، فإنك توافق على سياسة الخصوصية الخاصة بنا.
+                {% endif %}
             </p>
             <button id="accept-cookies" class="btn btn-outline-neon btn-sm text-nowrap px-4 py-2 fw-bold">
-                {% trans "موافق" %}
+                {% if LANGUAGE_CODE == 'en' %}Accept{% else %}موافق{% endif %}
             </button>
         </div>
     </div>
